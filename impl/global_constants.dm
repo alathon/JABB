@@ -22,5 +22,10 @@ IN THE SOFTWARE.
 */
 
 var/const
-	CLIENT_TELNET 	= 1
-	CLIENT_DS		= 2
+	// Client types. Determined by client.__determineClientType()
+	CLIENT_TELNET 	= 1;
+	CLIENT_DS		= 2;
+
+	// Description context types, used by the atom.describe() procedure.
+	CONTEXT_LONG	= 1;
+	CONTEXT_SHORT	= 2;

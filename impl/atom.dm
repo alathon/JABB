@@ -23,23 +23,17 @@ IN THE SOFTWARE.
 
 atom
 	proc
-		getRoomDescription(mob/M) {
-			return "[src.name] is here.";
+		/*
+		Simple getter for a short viewable name, with optional prefixes/suffixes
+		in mind.
+		*/
+		getName() {
+			return src.name;
 		}
 
-		getLongDescription(mob/M) {
-			return src.desc;
+		/*
+		Prototype procedure to describe src to
+		target, in the context of 'context'.
+		*/
+		describe(atom/target, context) {
 		}
-
-	describe(datum/A) {
-		var/mob/Char;
-		if(istype(A, /client)) {
-			var/client/C = A;
-			Char = C.getCharacter();
-		}
-		else if(istype(A, /mob)) {
-			Char = A;
-		}
-
-		return src.getLongDescription(Char);
-	}

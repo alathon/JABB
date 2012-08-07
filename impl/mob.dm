@@ -36,14 +36,21 @@ mob
 						var/ok = Move(curLoc.vars[dir], "You move [dir].");
 						if(ok) {
 							var/Room/newLoc = src.loc;
-							curLoc.print("[src.getRoomDescription()] moves [dir].");
-							newLoc.print("[src.getRoomDescription()] enters from the [dir].");
+							curLoc.print("[src.describe(null, CONTEXT_SHORT)] moves [dir].");
+							newLoc.print("[src.describe(null, CONTEXT_SHORT)] enters from the [dir].");
 						}
 					} else {
 						if(client) client.out.print("You can't go [dir] here.");
 					}
 				}
 		}
+
+	describe(atom/target, context) {
+		switch(context) {
+			if(CONTEXT_LONG) return src.desc;
+			if(CONTEXT_SHORT) return "[src.getName()] is here.";
+		}
+	}
 
 	Move(Room/newLoc, msgSelf) {
 		var/ok = ..(newLoc);

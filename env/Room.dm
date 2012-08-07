@@ -102,12 +102,12 @@ Room
 		__getContentsFor(mob/viewer) {
 			. = "\n";
 			for(var/mob/M in src.contents) {
-				var/desc = M.getRoomDescription(viewer);
+				var/desc = M.describe(viewer, CONTEXT_SHORT);
 				if(desc)
 					. += "[desc]\n";
 			}
 			for(var/obj/O in src.contents) {
-				var/desc = O.getRoomDescription(viewer);
+				var/desc = O.describe(viewer, CONTEXT_SHORT);
 				if(desc)
 					. += "[desc]\n";
 			}
@@ -121,14 +121,10 @@ Room
 		if(ispath(west)) west = locate(west);
 	}
 
-	/*
-	Override describe, so that if a mob tries to get
-	a description, the room describes itself to that mob.
-	*/
-	describe(A) {
-		if(istype(A, /mob)) {
-			var/mob/M = A;
-			var/myDesc = __getDescFor(M);
-			M.print(myDesc);
+
+	describe(atom/target, context) {
+		if(istype(target, /mob)) {
+			var/mob/M = target;
+			M.print(src.__getDescFor(M));
 		}
 	}

@@ -22,7 +22,6 @@ IN THE SOFTWARE.
 */
 
 Command
-	/* Movement */
 	east
 		format = "~east";
 
