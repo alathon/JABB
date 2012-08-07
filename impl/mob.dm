@@ -54,8 +54,17 @@ mob
 	*/
 	describe(atom/target, context) {
 		switch(context) {
-			if(CONTEXT_LONG) return src.desc;
-			if(CONTEXT_SHORT) return "[src.getName()] is here.";
+			if(CONTEXT_LONG) {
+				return src.desc;
+			}
+
+			if(CONTEXT_SHORT) {
+				if(target == src) {
+					return "You are here.";
+				} else {
+					return "[src.getName()] is here.";
+				}
+			}
 		}
 	}
 

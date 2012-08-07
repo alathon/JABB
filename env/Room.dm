@@ -92,26 +92,31 @@ Room
 			. = "";
 			. += "#z[src.name]#n\n";
 			. += "[src.desc]\n";
-			. += "[src.__getExitsText(viewer)]\n";
+			. += "[src.__getExitsText(viewer)]";
 		}
 
 		/*
 		Describe the mobs and objs in the room, based on
-		what viewer can see. Lists mobs before objs.
+		what viewer can see. Lists mobs before objs, and
+		excludes the viewer.
 		*/
 		__getContentsFor(mob/viewer) {
-			. = "\n";
+			. = "";
 			for(var/mob/M in src.contents) {
+				if(M == viewer) continue;
 				var/desc = M.describe(viewer, CONTEXT_SHORT);
-				if(desc)
+				if(desc) {
 					. += "[desc]\n";
+				}
 			}
 			for(var/obj/O in src.contents) {
 				var/desc = O.describe(viewer, CONTEXT_SHORT);
-				if(desc)
+				if(desc) {
 					. += "[desc]\n";
+				}
 			}
-			. = copytext(., 1, -1);
+			if(!.) return;
+			. = "\n[copytext(., 1, -1)]";
 		}
 
 	New() {
