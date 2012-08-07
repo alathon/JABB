@@ -57,8 +57,8 @@ The libraries behind JABB
 -------------------------
 JABB uses the following libraries:
 
-* <a href="http://www.byond.com/developer/Alathon/Alaparser">Alaparser</a> by me, a command parser.
-* <a href="http://www.byond.com/developer/Alathon/InputGrabber">InputGrabber</a> by me, a library for querying for client input.
+* <a href="http://www.byond.com/developer/Alathon/Alaparser">Alaparser</a> by me, a command parser. (On GitHub <a href="https://github.com/alathon/InputGrabber">here</a>)
+* <a href="http://www.byond.com/developer/Alathon/InputGrabber">InputGrabber</a> by me, a library for querying for client input. (On GitHub <a href="https://github.com/alathon/Alaparser">here</a>)
 * <a href="http://www.byond.com/developer/Stephen001/EventScheduling">EventScheduling</a> by Stephen001, an event scheduling library.
 * <a href="http://www.byond.com/developer/Keeth/kText">kText</a> by Keeth, a text-processing library.
 
