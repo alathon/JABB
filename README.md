@@ -6,6 +6,13 @@ showcasing the use of a variety of different libraries that I've written for
 BYOND, which together provide a strong suite from which to create a MUD and focus
 on the design and content instead of the nitty-gritty.
 
+Why should you be using JABB?
+-----------------------------
+JABB is meant to be a demonstration, or a base from which you can continue
+work yourself. It will primarily appeal to those looking to start from scratch,
+those new to programming, or those who find the rapid development pace of writing
+something in BYOND appealing.
+
 What is BYOND?
 --------------
 BYOND is a free software suite, game community, programming language and VM.
@@ -21,19 +28,6 @@ The programming language itself is expressive, Turing-complete, simple and easy
 to work with. It reminds me a little of a mix between Java and Python. The VM
 handles a lot of niceties for you (Such as networking and garbage collection),
 leaving you to create stuff instead.
-
-Why should you be using JABB?
------------------------------
-JABB is meant to be a demonstration, or a base from which you can continue
-work yourself. It will primarily appeal to those looking to start from scratch,
-those new to programming, or those who find the rapid development pace of writing
-something in BYOND appealing.
-
-It should be more than possible, given a decent knowledge of programming languages
-in general, to get familiar with BYOND and have a fully functional MUD up and
-running within 3 months - If you know what you want to create. JABB should shorten
-the development time by at least a month. If that sounds appealing (Or too good
-to be true), then maybe JABB is for you.
 
 JABB *will* implement all of the following
 -----------------------------
@@ -60,11 +54,14 @@ JABB *might* implement the following:
 about information in the game or do things (Such as list who's online, kick a player,
 view logs, etc).
 
-
 The libraries behind JABB
 -------------------------
 The JABB demo uses the following libraries:
 
-* <a href="https://github.com/alathon/Alaparser">Alaparser</a>, a command parser.
-* InputGrabber, a library for querying for client input. (Will be on github shortly)
-* EventScheduler, an event scheduling library by Stephen001 on BYOND.
+* <a href="https://github.com/alathon/Alaparser">Alaparser</a> by Alathon(me!), a command parser.
+* InputGrabber by Alathon(me!), a library for querying for client input.
+* EventScheduler by Stephen001, an event scheduling library.
+* kText by Keeth, a text-processing library.
+
+Because BYOND library dependency management isn't all that peachy on Linux (They auto-update on Windows),
+I've included a script you can run which updates libraries declared by the project for you.
