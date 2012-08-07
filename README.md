@@ -1,15 +1,14 @@
 JABB
 ====
 
-Just Another Barebones Base is a BYOND-based demo MUD
+Just Another Barebones Base is a BYOND-based MUD
 showcasing the use of a variety of different libraries that I've written for
-BYOND, which together provide a strong suite from which to create a MUD and focus
-on the design and content instead of the nitty-gritty.
+BYOND. Together they provide a strong suite from which to create a MUD.
 
 Why should you be using JABB?
 -----------------------------
-JABB is meant to be a demonstration, or a base from which you can continue
-work yourself. It will primarily appeal to those looking to start from scratch,
+JABB is meant to be a demonstration, or a base from which you can create your own
+MUD. It will primarily appeal to those looking to start from scratch,
 those new to programming, or those who find the rapid development pace of writing
 something in BYOND appealing.
 
@@ -24,7 +23,7 @@ It is installable both on nix and Windows, and has been around for over 10 years
 by now. The language, the website, the VM and the software are all still under
 active development to this day.
 
-The programming language itself is expressive, Turing-complete, simple and easy
+The programming language itself is expressive, simple and easy
 to work with. It reminds me a little of a mix between Java and Python. The VM
 handles a lot of niceties for you (Such as networking and garbage collection),
 leaving you to create stuff instead.
@@ -56,12 +55,14 @@ view logs, etc).
 
 The libraries behind JABB
 -------------------------
-The JABB demo uses the following libraries:
+JABB uses the following libraries:
 
-* <a href="https://github.com/alathon/Alaparser">Alaparser</a> by Alathon(me!), a command parser.
-* InputGrabber by Alathon(me!), a library for querying for client input.
-* EventScheduler by Stephen001, an event scheduling library.
-* kText by Keeth, a text-processing library.
+* <a href="http://www.byond.com/developer/Alathon/Alaparser">Alaparser</a> by me, a command parser.
+* <a href="http://www.byond.com/developer/Alathon/InputGrabber">InputGrabber</a> by me, a library for querying for client input.
+* <a href="http://www.byond.com/developer/Stephen001/EventScheduling">EventScheduling</a> by Stephen001, an event scheduling library.
+* <a href="http://www.byond.com/developer/Keeth/kText">kText</a> by Keeth, a text-processing library.
 
 Because BYOND library dependency management isn't all that peachy on Linux (They auto-update on Windows),
-I've included a script you can run which updates libraries declared by the project for you.
+I'll be whipping up a script to run which updates/downloads libraries declared by the project. Until then,
+the above 4 libraries need to be downloaded manually first. This is a 1-click deal on Windows with BYOND installed,
+and requires you to run the DreamDownload application with the above URLs, on nix.
