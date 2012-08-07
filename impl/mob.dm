@@ -23,10 +23,12 @@ IN THE SOFTWARE.
 
 mob
 	proc
+		/* Shorthand for sending text to the client, that owns the Outputter. */
 		print(text, prompt = TRUE, color = TRUE) {
 			if(client) client.out.print(text, prompt, color);
 		}
 
+		/* Called by movement commands. Should also be used to move NPCs in a direction. */
 		attemptMove(dir) {
 			switch(dir)
 				if("north","south","east","west") {
@@ -45,6 +47,11 @@ mob
 				}
 		}
 
+	/*
+	CONTEXT_LONG is for mob descriptions
+	CONTEXT_SHORT is for rooms and the like.
+	If you need just the name, then use atom.name
+	*/
 	describe(atom/target, context) {
 		switch(context) {
 			if(CONTEXT_LONG) return src.desc;
@@ -52,6 +59,11 @@ mob
 		}
 	}
 
+	/*
+	Main procedure used to physically move an atom. Redefined for mob
+	to make sure the owner of the mob gets a message about moving in
+	a direction, and takes a look at the room they enter.
+	*/
 	Move(Room/newLoc, msgSelf) {
 		var/ok = ..(newLoc);
 		if(ok && client && msgSelf) {
@@ -60,6 +72,10 @@ mob
 		}
 	}
 
+	/*
+	This is called when a client attempts to connect to a mob. In other words,
+	when someone logs in. For now, just move them to a room.
+	*/
 	Login()
 		. = ..();
 		sleep(1);

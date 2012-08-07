@@ -27,6 +27,12 @@ IN THE SOFTWARE.
 #define TELNET_COLOR CLIENT_TELNET
 #define HTML_COLOR CLIENT_DS
 
+/*
+Colorizer exposes the colorize(text, color_mode) procedure, which
+will color text. It has support for HTML coloring as well, because
+clients connected via DreamSeeker need HTML-tag colors, not ANSI escape
+codes.
+*/
 Colorizer
 	New() {
 		for(var/A in typesof(/sequence/html/) - /sequence/html)

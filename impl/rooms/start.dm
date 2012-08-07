@@ -21,6 +21,11 @@ IN THE SOFTWARE.
 
 */
 
+/*
+These are 'hardcoded' rooms, and thats less-than-ideal.
+But until saving/loading rooms and zones/areas is in,
+this means theres a physical world to be around in.
+*/
 Room/start
 	login_room
 		desc = {"This is the login room.

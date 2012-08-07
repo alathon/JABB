@@ -22,18 +22,29 @@ IN THE SOFTWARE.
 */
 
 client
+	/* This is solely for DreamSeeker, the Windows-based BYOND client. It *can* technically
+	be used to connect, although we can easily disallow those if need be. */
 	script = "<STYLE>BODY {font: monospace; background: #000001; color: green}</STYLE>"
-	view   = "21x11"
 
 	New() {
 		. = ..();
 		__determineClientType();
 	}
 
+	/*
+	A 'grabber' is an InputGrabber, from the Alathon.InputGrabber library.
+	Basically, its a queue of questions, which will steal input first, before
+	the Parser gets at it.
+	*/
 	getGrabber() {
 		return src.grabber;
 	}
 
+	/*
+	This is the main entry-point for client input. The sole argument to Command() is
+	what the user has sent to the MUD. From there, we either use it to answer a question
+	or get parsed, for a potential command.
+	*/
 	Command(T) {
 		var/InputGrabber/grabber = src.getGrabber();
 		if(grabber.isActive()) {

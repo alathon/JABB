@@ -21,6 +21,13 @@ IN THE SOFTWARE.
 
 */
 
+/*
+Every client needs an Outputter attached to them. Its basically a simple
+datum responsible for sending output to its client source; it will take
+care of sending it past a Colorizer first, and has an option to show or not
+show a prompt to the player after the text.
+*/
+
 Outputter
 	New(__source) {
 		src.__source = __source;
