@@ -49,11 +49,14 @@ Command
 		format = "who";
 
 		command(client/C) {
-			C.out.print("----------\n");
+			. = "Who's online right now?\n";
+			. += "<--------------->\n";
 			for(var/client/other) {
-				C.out.print(other.getCharacter());
+				var/mob/M = other.getCharacter();
+				. += "[M.getName()]\n";
 			}
-			C.out.print("----------\n");
+			. += "<--------------->\n";
+			C.out.print(.);
 		}
 
 	look

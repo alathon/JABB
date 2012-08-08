@@ -35,7 +35,7 @@ mob
 					var/Room/curLoc = src.loc;
 
 					if(curLoc.vars[dir] != null) {
-						var/ok = Move(curLoc.vars[dir], "You move [dir].");
+						var/ok = Move(curLoc.vars[dir], "You move [dir].\n");
 						if(ok) {
 							var/Room/newLoc = src.loc;
 							curLoc.print("[src.describe(null, CONTEXT_SHORT)] moves [dir].");
@@ -76,7 +76,7 @@ mob
 	Move(Room/newLoc, msgSelf) {
 		var/ok = ..(newLoc);
 		if(ok && client && msgSelf) {
-			client.out.print(msgSelf);
+			client.out.print(text = msgSelf, prompt = FALSE);
 			client.Command("look");
 		}
 	}
@@ -88,4 +88,4 @@ mob
 	Login()
 		. = ..();
 		sleep(1);
-		Move(locate(/Room/start/login_room), "You enter the game.");
+		Move(locate(/Room/start/login_room), "You enter the game.\n");

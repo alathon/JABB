@@ -28,30 +28,9 @@ to work with. It reminds me a little of a mix between Java and Python. The VM
 handles a lot of niceties for you (Such as networking and garbage collection),
 leaving you to create stuff instead.
 
-JABB *will* implement all of the following
------------------------------
-* Standard Room-based world with N/S/E/W exits.
-* Basic commands often found on MUDs for interaction with the world.
-* A simple login process where you select name, gender and class.
-* Commands attached to rooms and to physical objects in the game.
-* Simple player-customizable prompts.
-* A basic notion of character attributes, levels and experience.
-* Items, inventories, equipment.
-* Respawn points, for respawning mobs / objs.
-* Basic MUD-like concept of an 'area' or 'zone'.
-* Basic saving and loading of areas and players, based on a simple flat-file
-format.
-
-JABB *might* implement the following:
--------------------------------------
-* Commands for editing rooms.
-* A tool to convert some of the existing .ARE files into the game.
-* Instanced zones/rooms.
-* The notion of death, leaving behind a corpse and respawning.
-* A very basic, very untuned turn-based combat system.
-* A simple little webserver daemon that can act as a form of RMI, to query via HTTP
-about information in the game or do things (Such as list who's online, kick a player,
-view logs, etc).
+For information on what JABB plans to implement, the design decisions made, documentation
+on the inner workings of JABB and so on, read the Google document published
+<a href="https://docs.google.com/a/port7.dk/document/pub?id=131JPJ5tb88omzicJO3NjZBB3EZ-uG0vhT_RdsLfLLMw">here</a>
 
 The libraries behind JABB
 -------------------------
@@ -63,6 +42,9 @@ JABB uses the following libraries:
 * <a href="http://www.byond.com/developer/Keeth/kText">kText</a> by Keeth, a text-processing library.
 
 Because BYOND library dependency management isn't all that peachy on Linux (They auto-update on Windows),
-I'll be whipping up a script to run which updates/downloads libraries declared by the project. Until then,
-the above 4 libraries need to be downloaded manually first. This is a 1-click deal on Windows with BYOND installed,
-and requires you to run the DreamDownload application with the above URLs, on nix.
+its not very easy to download and update BYOND libraries on Linux right now. For now you can use the above links
+to download the libraries from the BYOND website, which is a 1-click deal if you're on Windows.
+
+If you're on Linux, you need to use the DreamDownload application that comes with the BYOND suite.
+
+As soon as time permits, there may be a script to manage this automatically, and to update them.
