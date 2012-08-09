@@ -22,10 +22,6 @@ IN THE SOFTWARE.
 */
 
 client
-	/* This is solely for DreamSeeker, the Windows-based BYOND client. It *can* technically
-	be used to connect, although we can easily disallow those if need be. */
-	script = "<STYLE>BODY {font: monospace; background: #000001; color: green}</STYLE>"
-
 	New() {
 		. = ..();
 		__determineClientType();
