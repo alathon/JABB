@@ -81,7 +81,7 @@ client
 		}
 
 		getPrompt() {
-			return "\<Hp: 20/20 AP: 5/5>";
+			return mob.getPrompt();
 		}
 
 		getCharacter() {

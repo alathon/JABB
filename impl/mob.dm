@@ -23,6 +23,11 @@ IN THE SOFTWARE.
 
 mob
 	proc
+		/* The mobs prompt. */
+		getPrompt() {
+			return "<Prompt here>";
+		}
+
 		/* Shorthand for sending text to the client, that owns the Outputter. */
 		print(text, prompt = TRUE, color = TRUE) {
 			if(client) client.out.print(text, prompt, color);

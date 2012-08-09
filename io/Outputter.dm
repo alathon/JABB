@@ -68,6 +68,10 @@ Outputter
     Telnet
         New(__source) {
             ..(__source);
+
+            /* This fixes an odd BYOND-related bug I've spotted on Linux,
+            where it seems like clients are being sent an ANSI color code
+            for a blue background.. */
             src.print("#n", FALSE, TRUE);
         }
 
