@@ -29,49 +29,54 @@ show a prompt to the player after the text.
 */
 
 Outputter
-	New(__source) {
-		src.__source = __source;
-	}
+    New(__source) {
+        src.__source = __source;
+    }
 
-	var
-		client/__source;
-		Colorizer/__colorizer = new();
+    var
+        client/__source;
+        Colorizer/__colorizer = new();
 
-	proc
-		__sendPrompt() {
-		}
+    proc
+        __sendPrompt() {
+        }
 
-		__color(t) {
-			return __colorizer.colorize(t, src.__source.client_type);
-		}
+        __color(t) {
+            return __colorizer.colorize(t, src.__source.client_type);
+        }
 
-		__send(t) {
-			src.__source << t;
-		}
+        __send(t) {
+            src.__source << t;
+        }
 
-		print(text, prompt = TRUE, color = TRUE) {
-			if(__colorizer != null && color) text = __color(text);
-			src.__send(text);
-			if(prompt) src.__sendPrompt();
-		}
+        print(text, prompt = TRUE, color = TRUE) {
+            if(__colorizer != null && color) text = __color(text);
+            src.__send(text);
+            if(prompt) src.__sendPrompt();
+        }
 
-	DS
-		__sendPrompt() {
-			if(src.__source.getPrompt()) {
-				src.__send("\n[src.__source.getPrompt()]");
-			}
-		}
-		__color(t) {
-			return __colorizer.colorize(t, CLIENT_DS);
-		}
+    DS
+        __sendPrompt() {
+            if(src.__source.getPrompt()) {
+                src.__send("\n[src.__source.getPrompt()]");
+            }
+        }
+        __color(t) {
+            return __colorizer.colorize(t, CLIENT_DS);
+        }
 
-	Telnet
-		__color(t) {
-			return __colorizer.colorize(t, CLIENT_TELNET);
-		}
+    Telnet
+        New(__source) {
+            ..(__source);
+            src.print("#n", FALSE, TRUE);
+        }
 
-		__sendPrompt() {
-			if(src.__source.getPrompt()) {
-				src.__send("\n[src.__source.getPrompt()]\...");
-			}
-		}
+        __color(t) {
+            return __colorizer.colorize(t, CLIENT_TELNET);
+        }
+
+        __sendPrompt() {
+            if(src.__source.getPrompt()) {
+                src.__send("\n[src.__source.getPrompt()]\...");
+            }
+        }
