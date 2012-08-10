@@ -8,6 +8,11 @@ LoginProcess
             __go();
         }
 
+        __getProperName(text) {
+            return uppertext(copytext(text, 1, 2)) + lowertext(copytext(text, 2));
+
+        }
+
         __newCharacter() {
             var/Question/login/create/charName/charNameQ = new(source = src.__user);
             var/Question/login/create/charGender/charGenderQ = new(source = src.__user);
@@ -22,7 +27,7 @@ LoginProcess
             }
 
             var/mob/M = new();
-            M.name = uppertext(copytext(charName, 1, 2)) + lowertext(copytext(charName, 2));
+            M.name = src.__getProperName(charName);
             M.gender = charGender;
             M.key = src.__user.key;
             M.Move(locate(/Room/start/login_room), "You enter the game.\n");
@@ -30,6 +35,8 @@ LoginProcess
 
         __go() {
             var/Question/login/loadOrCreate/first = new(source = src.__user);
+
+            if(!src.__user) del src; // Client not there.
 
             if(first.getValue() == "load") {
                 return src.__loadCharacter();
@@ -43,14 +50,16 @@ LoginProcess
         }
 
     New(client/user) {
+        if(!user || !istype(user)) del src; // Client not there.
+
         src.__user = user;
         src.__go();
     }
 
 Question/login
     loadOrCreate
-        question = "Would you like to (L)oad a character or (C)reate a new one?";
-        retryQuestion = "You must type either L for load or C to create a new character.";
+        question = "Would you like to #z(#yL#z)#noad a character or #z(#yC#z)#nreate a new one?";
+        retryQuestion = "Would you like to #z(#yL#z)#noad a character or #z(#yC#z)#nreate a new one?";
         tries = 3;
 
         getValue() {
@@ -89,7 +98,7 @@ Question/login
 
         charGender
             question = "Would you like to be #z(#yM#z)#nale or #z(#yF#z)#nemale?";
-            retryQuestion = "You must type either M for male or F for female.";
+            retryQuestion = "Would you like to be #z(#yM#z)#nale or #z(#yF#z)#nemale?";
             tries = 3;
 
 
