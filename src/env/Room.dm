@@ -29,107 +29,106 @@ can access when inside the room.
 */
 
 Room
-	parent_type = /area
-	var
-		list/commands;
-		Room/north;
-		Room/south;
-		Room/east;
-		Room/west;
+    parent_type = /area
+    var
+        list/commands;
+        Room/north;
+        Room/south;
+        Room/east;
+        Room/west;
 
-	proc
-		/*
-		Returns a list of the Command objects associated
-		with the Room
-		*/
-		getRoomCommands() {
-			if(commands) return commands;
-			else return list();
-		}
+    proc
+        /*
+        Returns a list of the Command objects associated
+        with the Room
+        */
+        getRoomCommands() {
+            if(commands) return commands;
+            else return list();
+        }
 
-		/*
-		Prints a message out to the room, optionally
-		taking a list of atoms not to show the message to.
-		*/
-		print(txt, list/exclude) {
-			if(!exclude) exclude = list();
-			else if(istype(exclude, /atom)) exclude = list(exclude);
-			for(var/mob/M in contents - exclude) {
-				if(M.client) M.client.out.print(txt);
-			}
-		}
+        /*
+        Prints a message out to the room, optionally
+        taking a list of atoms not to show the message to.
+        */
+        print(txt, list/exclude) {
+            if(!exclude) exclude = list();
+            else if(istype(exclude, /atom)) exclude = list(exclude);
+            for(var/mob/M in contents - exclude) {
+                if(M.client) M.client.out.print(txt);
+            }
+        }
 
-		/*
-		Returns a text string representing the exits that
-		the mob viewer can see.
-		*/
-		__getExitsText(mob/viewer) {
-			. = "#yExits:#z ";
-			if(north && istype(north, /Room)) . += "North ";
-			if(south && istype(south, /Room)) . += "South ";
-			if(east && istype(east, /Room)) . += "East ";
-			if(west && istype(west, /Room)) . += "West ";
+        /*
+        Returns a text string representing the exits that
+        the mob viewer can see.
+        */
+        __getExitsText(mob/viewer) {
+            . = "#yExits:#z ";
+            if(north && istype(north, /Room)) . += "North ";
+            if(south && istype(south, /Room)) . += "South ";
+            if(east && istype(east, /Room)) . += "East ";
+            if(west && istype(west, /Room)) . += "West ";
 
-			if(length(.) == length("#yExits:#z ")) return "#yExits:#z None#n";
-			else return "[.]#n";
-		}
+            if(length(.) == length("#yExits:#z ")) return "#yExits:#z None#n";
+            else return "[.]#n";
+        }
 
-		/*
-		Rooms describe themself to a player by first describing itself,
-		and then letting anything in the room describe itself to the player.
-		This gives mobs and objs a chance to be invisible, or look different
-		depending on the players perception.
-		*/
-		__getDescFor(mob/viewer) {
-			. += __getRoomDesc(viewer);
-			. += __getContentsFor(viewer);
-		}
+        /*
+        Rooms describe themself to a player by first describing itself,
+        and then letting anything in the room describe itself to the player.
+        This gives mobs and objs a chance to be invisible, or look different
+        depending on the players perception.
+        */
+        __getDescFor(mob/viewer) {
+            . += __getRoomDesc(viewer);
+            . += __getContentsFor(viewer);
+        }
 
-		/*
-		Describes the room itself, followed by its exits.
-		*/
-		__getRoomDesc(mob/viewer) {
-			. = "";
-			. += "#z[src.name]#n\n";
-			. += "[src.desc]\n";
-			. += "[src.__getExitsText(viewer)]";
-		}
+        /*
+        Describes the room itself, followed by its exits.
+        */
+        __getRoomDesc(mob/viewer) {
+            . = "";
+            . += "#z[src.name]#n\n";
+            . += "[src.desc]\n";
+            . += "[src.__getExitsText(viewer)]";
+        }
 
-		/*
-		Describe the mobs and objs in the room, based on
-		what viewer can see. Lists mobs before objs, and
-		excludes the viewer.
-		*/
-		__getContentsFor(mob/viewer) {
-			. = "";
-			for(var/mob/M in src.contents) {
-				if(M == viewer) continue;
-				var/desc = M.describe(viewer, CONTEXT_SHORT);
-				if(desc) {
-					. += "[desc]\n";
-				}
-			}
-			for(var/obj/O in src.contents) {
-				var/desc = O.describe(viewer, CONTEXT_SHORT);
-				if(desc) {
-					. += "[desc]\n";
-				}
-			}
-			if(!.) return;
-			. = "\n[copytext(., 1, -1)]";
-		}
+        /*
+        Describe the mobs and objs in the room, based on
+        what viewer can see. Lists mobs before objs, and
+        excludes the viewer.
+        */
+        __getContentsFor(mob/viewer) {
+            . = "";
+            for(var/mob/M in src.contents) {
+                if(M == viewer) continue;
+                var/desc = M.describe(viewer, CONTEXT_SHORT);
+                if(desc) {
+                    . += "[desc]\n";
+                }
+            }
+            for(var/obj/O in src.contents) {
+                var/desc = O.describe(viewer, CONTEXT_SHORT);
+                if(desc) {
+                    . += "[desc]\n";
+                }
+            }
+            if(!.) return;
+            . = "\n[copytext(., 1, -1)]";
+        }
 
-	New() {
-		if(ispath(north)) north = locate(north);
-		if(ispath(south)) south = locate(south);
-		if(ispath(east)) east = locate(east);
-		if(ispath(west)) west = locate(west);
-	}
+    New() {
+        if(ispath(north)) north = locate(north);
+        if(ispath(south)) south = locate(south);
+        if(ispath(east)) east = locate(east);
+        if(ispath(west)) west = locate(west);
+    }
 
 
-	describe(atom/target, context) {
-		if(istype(target, /mob)) {
-			var/mob/M = target;
-			M.print(src.__getDescFor(M));
-		}
-	}
+    describe(atom/target, context) {
+        if(istype(target, /mob)) {
+            return src.__getDescFor(target);
+        }
+    }

@@ -1,8 +1,13 @@
 include vars.sh
 
-all:
+all: compile
+
+compile:
 	DreamMaker $(TARGET).dme
 	mv $(TARGET).dmb bin/$(DMB)
+
+stop:
+	kill -9 `pgrep -f "DreamDaemon bin ${DMB}"`
 
 run:
 	DreamDaemon bin/$(DMB) $(PORT) -log $(LOG) &

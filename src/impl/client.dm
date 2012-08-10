@@ -21,65 +21,79 @@ IN THE SOFTWARE.
 
 */
 
+
 client
-	New() {
-		. = ..();
-		__determineClientType();
-	}
+    New() {
+        var/mob/login/l = new();
+        l.key = src.key;
+        __determineClientType();
+        spawn() __enterGame();
+    }
 
-	/*
-	A 'grabber' is an InputGrabber, from the Alathon.InputGrabber library.
-	Basically, its a queue of questions, which will steal input first, before
-	the Parser gets at it.
-	*/
-	getGrabber() {
-		return src.grabber;
-	}
+    /*
+    A 'grabber' is an InputGrabber, from the Alathon.InputGrabber library.
+    Basically, its a queue of questions, which will steal input first, before
+    the Parser gets at it.
+    */
+    getGrabber() {
+        return src.grabber;
+    }
 
-	/*
-	This is the main entry-point for client input. The sole argument to Command() is
-	what the user has sent to the MUD. From there, we either use it to answer a question
-	or get parsed, for a potential command.
-	*/
-	Command(T) {
-		var/InputGrabber/grabber = src.getGrabber();
-		if(grabber.isActive()) {
-			grabber.receive(T);
-		} else {
-			var/list/extras = list();
-			var/mob/char = src.getCharacter();
-			if(istype(char, /Room)) {
-				var/Room/R = char;
-				extras = R.getRoomCommands();
-			}
+    /*
+    This is the main entry-point for client input. The sole argument to Command() is
+    what the user has sent to the MUD. From there, we either use it to answer a question
+    or get parsed, for a potential command.
+    */
+    Command(T) {
+        var/InputGrabber/grabber = src.getGrabber();
+        if(grabber.isActive()) {
+            grabber.receive(T);
+        } else {
+            var/list/extras = list();
+            var/mob/char = src.getCharacter();
+            if(istype(char, /Room)) {
+                var/Room/R = char;
+                extras = R.getRoomCommands();
+            }
 
-			var/ParserOutput/out = alaparser.parse(src, T, extras);
-			if(!out.getMatchSuccess()) {
-				src.out.print("Huh?");
-			}
-		}
-	}
+            var/ParserOutput/out = alaparser.parse(char, T, extras);
+            if(!out.getMatchSuccess()) {
+                src.out.print("Huh?");
+            }
+        }
+    }
 
-	var
-		InputGrabber/grabber = new();
-		client_type = CLIENT_TELNET;
-		Outputter/out;
+    var
+        InputGrabber/grabber = new();
+        client_type = CLIENT_TELNET;
+        Outputter/out;
 
-	proc
-		__determineClientType() {
-			if(!findtext(src.key, ".")) {
-				client_type = CLIENT_DS
-				out = new /Outputter/DS(src);
-			} else {
-				client_type = CLIENT_TELNET;
-				out = new /Outputter/Telnet(src);
-			}
-		}
+    proc
+        /*
+        Here we determine whether this is a linkdead client coming back,
+        or whether this is a new connection that needs to be presented with
+        login information.
 
-		getPrompt() {
-			return mob.getPrompt();
-		}
+        For now, we don't care about linkdeath, since its not implemented yet.
+        */
+        __enterGame() {
+            var/LoginProcess/login = new(src);
+        }
 
-		getCharacter() {
-			return mob;
-		}
+        __determineClientType() {
+            if(!findtext(src.key, ".")) {
+                client_type = CLIENT_DS
+                out = new /Outputter/DS(src);
+            } else {
+                client_type = CLIENT_TELNET;
+                out = new /Outputter/Telnet(src);
+            }
+        }
+
+        getPrompt() {
+            return mob.getPrompt();
+        }
+
+        getCharacter() {
+            return mob;
+        }

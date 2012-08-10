@@ -22,59 +22,59 @@ IN THE SOFTWARE.
 */
 
 Command
-	say
-		format = "say; any;"
+    say
+        format = "say; any;"
 
-		command(client/C, txt) {
-			var/mob/M = C.getCharacter();
-			var/Room/R = M.loc;
-			R.print("[C] says, '[txt]'", M);
-			C.out.print("You say, '[txt]'");
-		}
+        command(mob/user, txt) {
+            var/Room/R = user.loc;
+            R.print("[user.getName()] says, '[txt]'", user);
+            user.print("You say, '[txt]'");
+        }
 
-	tell
-		format = "tell; %search(client@clients); any";
+    tell
+        format = "tell; %search(mob@players); any";
 
-		command(client/C, client/target, txt) {
-			if(target == C) {
-				C.out.print("You tell yourself (Weirdo), '[txt]'");
-				return;
-			}
+        command(mob/user, mob/target, txt) {
+            if(target == user) {
+                user.print("You tell yourself (Weirdo), '[txt]'");
+                return;
+            }
 
-			target.out.print("[C] tells you, '[txt]'");
-			C.out.print("You tell [target], '[txt]'");
-		}
+            target.print("[user.getName()] tells you, '[txt]'");
+            user.print("You tell [target.getName()], '[txt]'");
+        }
 
-	who
-		format = "who";
+    who
+        format = "who";
 
-		command(client/C) {
-			. = "Who's online right now?\n";
-			. += "<--------------->\n";
-			for(var/client/other) {
-				var/mob/M = other.getCharacter();
-				. += "[M.getName()]\n";
-			}
-			. += "<--------------->\n";
-			C.out.print(.);
-		}
+        command(mob/user) {
+            . = "Who's online right now?\n";
+            . += "<--------------->\n";
+            for(var/client/other) {
+                var/mob/M = other.getCharacter();
+                . += "[M.getName()]\n";
+            }
+            . += "<--------------->\n";
+            user.print(.);
+        }
 
-	look
-		format = "~look; ?!at; ?~search(mob@loc)";
+    look
+        format = "~look; ?!at; ?~search(mob@loc)";
 
-		command(client/C, at, mob/M) {
-			if(!M) {
-				if(at) {
-					C.out.print("Look at what?");
-					return;
-				}
+        command(mob/user, at, mob/M) {
+            var/desc;
+            if(!M) {
+                if(at) {
+                    user.print("Look at what?");
+                    return;
+                }
 
-				var/mob/Char = C.getCharacter();
-				if(istype(Char.loc, /Room)) {
-					var/Room/R = Char.loc;
-					R.describe(Char);
-				}
-			} else {
-				M.describe(C);
-			}
-		}
+                if(istype(user.loc, /Room)) {
+                    var/Room/R = user.loc;
+                    desc = R.describe(user);
+                }
+            } else {
+                desc = M.describe(user, CONTEXT_LONG);
+            }
+            user.print(desc);
+        }

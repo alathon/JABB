@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2012 Martin Gielsgaard Grünbaum
+Copyright (C) 2012 Martin Gielsgaard GrÃ¼nbaum
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -21,31 +21,12 @@ IN THE SOFTWARE.
 
 */
 
-Command
-	east
-		format = "~east";
+/*
+Override Question.sendToClient() to use client's Outputter instead,
+giving us color support.
+*/
 
-		command(mob/user) {
-			user.attemptMove("east");
-		}
-
-	west
-		format = "~west";
-
-		command(mob/user) {
-			user.attemptMove("west");
-		}
-
-	south
-		format = "~south";
-
-		command(mob/user) {
-			user.attemptMove("south");
-		}
-
-	north
-		format = "~north";
-
-		command(mob/user) {
-			user.attemptMove("north");
-		}
+Question
+    sendToClient(client/C, txt) {
+        C.out.print(text = txt, prompt = FALSE);
+    }

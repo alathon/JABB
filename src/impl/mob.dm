@@ -22,75 +22,88 @@ IN THE SOFTWARE.
 */
 
 mob
-	proc
-		/* The mobs prompt. */
-		getPrompt() {
-			return "<Prompt here>";
-		}
+    proc
+        /* The mobs prompt. */
+        getPrompt() {
+            return "<Prompt here>";
+        }
 
-		/* Shorthand for sending text to the client, that owns the Outputter. */
-		print(text, prompt = TRUE, color = TRUE) {
-			if(client) client.out.print(text, prompt, color);
-		}
+        /* Shorthand for sending text to the client, that owns the Outputter. */
+        print(text, prompt = TRUE, color = TRUE) {
+            if(client) client.out.print(text, prompt, color);
+        }
 
-		/* Called by movement commands. Should also be used to move NPCs in a direction. */
-		attemptMove(dir) {
-			switch(dir)
-				if("north","south","east","west") {
-					var/Room/curLoc = src.loc;
+        /* Called by movement commands. Should also be used to move NPCs in a direction. */
+        attemptMove(dir) {
+            switch(dir)
+                if("north","south","east","west") {
+                    var/Room/curLoc = src.loc;
 
-					if(curLoc.vars[dir] != null) {
-						var/ok = Move(curLoc.vars[dir], "You move [dir].\n");
-						if(ok) {
-							var/Room/newLoc = src.loc;
-							curLoc.print("[src.describe(null, CONTEXT_SHORT)] moves [dir].");
-							newLoc.print("[src.describe(null, CONTEXT_SHORT)] enters from the [dir].");
-						}
-					} else {
-						if(client) client.out.print("You can't go [dir] here.");
-					}
-				}
-		}
+                    if(curLoc.vars[dir] != null) {
+                        var/ok = Move(curLoc.vars[dir], "You move [dir].\n");
+                        if(ok) {
+                            var/Room/newLoc = src.loc;
+                            curLoc.print("[src.describe(null, CONTEXT_SHORT)] moves [dir].");
+                            newLoc.print("[src.describe(null, CONTEXT_SHORT)] enters from the [dir].");
+                        }
+                    } else {
+                        if(client) client.out.print("You can't go [dir] here.");
+                    }
+                }
+        }
 
-	/*
-	CONTEXT_LONG is for mob descriptions
-	CONTEXT_SHORT is for rooms and the like.
-	If you need just the name, then use atom.name
-	*/
-	describe(atom/target, context) {
-		switch(context) {
-			if(CONTEXT_LONG) {
-				return src.desc;
-			}
+    /*
+    CONTEXT_LONG is for mob descriptions
+    CONTEXT_SHORT is for rooms and the like.
+    If you need just the name, then use atom.name
+    */
+    describe(atom/target, context) {
+        switch(context) {
+            if(CONTEXT_LONG) {
+                if(src.desc) {
+                    return src.desc;
+                } else {
+                    return "[src.getName()] has no description!";
+                }
+            }
 
-			if(CONTEXT_SHORT) {
-				if(target == src) {
-					return "You are here.";
-				} else {
-					return "[src.getName()] is here.";
-				}
-			}
-		}
-	}
+            if(CONTEXT_SHORT) {
+                if(target == src) {
+                    return "You are here.";
+                } else {
+                    return "[src.getName()] is here.";
+                }
+            }
+        }
+    }
 
-	/*
-	Main procedure used to physically move an atom. Redefined for mob
-	to make sure the owner of the mob gets a message about moving in
-	a direction, and takes a look at the room they enter.
-	*/
-	Move(Room/newLoc, msgSelf) {
-		var/ok = ..(newLoc);
-		if(ok && client && msgSelf) {
-			client.out.print(text = msgSelf, prompt = FALSE);
-			client.Command("look");
-		}
-	}
+    /*
+    Main procedure used to physically move an atom. Redefined for mob
+    to make sure the owner of the mob gets a message about moving in
+    a direction, and takes a look at the room they enter.
+    */
+    Move(Room/newLoc, msgSelf) {
+        var/ok = ..(newLoc);
+        if(ok && client && msgSelf) {
+            client.out.print(text = msgSelf, prompt = FALSE);
+            client.Command("look");
+        }
+    }
 
-	/*
-	This is called when a client attempts to connect to a mob. In other words,
-	when someone logs in. For now, just move them to a room.
-	*/
-	Login()
-		. = ..();
-		sleep(1);
-		Move(locate(/Room/start/login_room), "You enter the game.\n");
+    /*
+    This makes sure to delete the mob when a player disconnects from it.
+    And leave a goodbye message.
+
+    This is not the way to go normally, but this is a quick n' dirty
+    solution for us right now.
+    */
+    Logout() {
+        var/Room/R = loc;
+        if(istype(R)) {
+            R.print("[src.getName()] leaves the game.", src);
+        }
+        del src;
+    }
+
+/* A mob prototype for players who're logging in. */
+mob/login

@@ -19,14 +19,17 @@
 #include <alathon\inputgrabber\InputGrabber.dme>
 #include <keeth\ktext\kText.dme>
 #include "src\JABB.dm"
+#include "src\commands\rangeOption.dm"
 #include "src\commands\communication.dm"
 #include "src\commands\movement.dm"
 #include "src\env\Room.dm"
 #include "src\impl\atom.dm"
 #include "src\impl\client.dm"
+#include "src\impl\LoginProcess.dm"
 #include "src\impl\global_constants.dm"
 #include "src\impl\mob.dm"
 #include "src\impl\rooms\start.dm"
+#include "src\io\Question.dm"
 #include "src\io\Colorizer.dm"
 #include "src\io\Outputter.dm"
 // END_INCLUDE
