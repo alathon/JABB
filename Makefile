@@ -2,6 +2,7 @@ TARGET=$(notdir $(basename $(CURDIR)))
 
 all:
 	DreamMaker $(TARGET).dme
+	mv ${TARGET}.dmb bin
 
 depend:
 	DreamDownload Alathon.Alaparser
@@ -12,7 +13,7 @@ depend:
 
 clean:
 	rm -rf $(TARGET).zip
-	rm -rf $(TARGET).dmb
+	rm -rf bin/$(TARGET).dmb
 	rm -rf $(TARGET).rsc
 
 zip:

@@ -18,16 +18,16 @@
 #include <stephen001\eventscheduling\Events\Events.dme>
 #include <alathon\inputgrabber\InputGrabber.dme>
 #include <keeth\ktext\kText.dme>
-#include "JABB.dm"
-#include "commands\communication.dm"
-#include "commands\movement.dm"
-#include "env\Room.dm"
-#include "impl\atom.dm"
-#include "impl\client.dm"
-#include "impl\global_constants.dm"
-#include "impl\mob.dm"
-#include "impl\rooms\start.dm"
-#include "io\Colorizer.dm"
-#include "io\Outputter.dm"
+#include "src\JABB.dm"
+#include "src\commands\communication.dm"
+#include "src\commands\movement.dm"
+#include "src\env\Room.dm"
+#include "src\impl\atom.dm"
+#include "src\impl\client.dm"
+#include "src\impl\global_constants.dm"
+#include "src\impl\mob.dm"
+#include "src\impl\rooms\start.dm"
+#include "src\io\Colorizer.dm"
+#include "src\io\Outputter.dm"
 // END_INCLUDE
 
