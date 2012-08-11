@@ -32,7 +32,7 @@ Command
         }
 
     tell
-        format = "tell; %search(mob@players); any";
+        format = "tell; ~search(mob@players); any";
 
         command(mob/user, mob/target, txt) {
             if(target == user) {
@@ -44,37 +44,3 @@ Command
             user.print("You tell [target.getName()], '[txt]'");
         }
 
-    who
-        format = "who";
-
-        command(mob/user) {
-            . = "Who's online right now?\n";
-            . += "<--------------->\n";
-            for(var/client/other) {
-                var/mob/M = other.getCharacter();
-                . += "[M.getName()]\n";
-            }
-            . += "<--------------->\n";
-            user.print(.);
-        }
-
-    look
-        format = "~look; ?!at; ?~search(mob@loc)";
-
-        command(mob/user, at, mob/M) {
-            var/desc;
-            if(!M) {
-                if(at) {
-                    user.print("Look at what?");
-                    return;
-                }
-
-                if(istype(user.loc, /Room)) {
-                    var/Room/R = user.loc;
-                    desc = R.describe(user);
-                }
-            } else {
-                desc = M.describe(user, CONTEXT_LONG);
-            }
-            user.print(desc);
-        }

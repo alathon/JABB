@@ -21,6 +21,7 @@
 #include "src\JABB.dm"
 #include "src\commands\rangeOption.dm"
 #include "src\commands\communication.dm"
+#include "src\commands\basic.dm"
 #include "src\commands\movement.dm"
 #include "src\env\Room.dm"
 #include "src\impl\atom.dm"

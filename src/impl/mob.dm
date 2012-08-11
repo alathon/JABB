@@ -25,7 +25,7 @@ mob
     proc
         /* The mobs prompt. */
         getPrompt() {
-            return "<Prompt here>";
+            return "\<Prompt here\>";
         }
 
         /* Shorthand for sending text to the client, that owns the Outputter. */

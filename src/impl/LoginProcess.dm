@@ -29,7 +29,9 @@ LoginProcess
             var/mob/M = new();
             M.name = src.__getProperName(charName);
             M.gender = charGender;
+            var/mob/Old = src.__user.mob;
             M.key = src.__user.key;
+            del Old;
             M.Move(locate(/Room/start/login_room), "You enter the game.\n");
         }
 
