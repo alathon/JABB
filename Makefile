@@ -1,6 +1,6 @@
 include vars.sh
 
-LOGDATE=$(shell date +'%y-%m-%d')
+LOGDATE=$(shell date +'%d%m%y')
 
 all: compile
 

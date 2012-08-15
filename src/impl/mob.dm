@@ -23,6 +23,21 @@ IN THE SOFTWARE.
 
 mob
     proc
+        /* Movement procedures for room and turf */
+        MoveRoom(Room/R) {
+            if(R.Enter(src)) {
+                src.loc = R;
+                R.Entered(src);
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
+        MoveTurf(turf/T) {
+            CRASH("Not implemented yet.");
+        }
+
         /* The mobs prompt. */
         getPrompt() {
             return "\<Prompt here\>";
@@ -45,6 +60,8 @@ mob
                             var/Room/newLoc = src.loc;
                             curLoc.print("[src.describe(null, CONTEXT_SHORT)] moves [dir].");
                             newLoc.print("[src.describe(null, CONTEXT_SHORT)] enters from the [dir].");
+                        } else {
+                            src.print("You were unable to go [dir].");
                         }
                     } else {
                         if(client) client.out.print("You can't go [dir] here.");
@@ -82,13 +99,25 @@ mob
     to make sure the owner of the mob gets a message about moving in
     a direction, and takes a look at the room they enter.
     */
-    Move(Room/newLoc, msgSelf) {
-        var/ok = ..(newLoc);
-        if(ok && client && msgSelf) {
-            client.out.print(text = msgSelf, prompt = FALSE);
-            client.Command("look");
+    Move(newLoc, msgSelf) {
+        if(istype(newLoc, /RoomExit)) {
+            var/RoomExit/exit = newLoc;
+            if(!exit.canUse(src)) return 0;
+            newLoc = exit.destination;
         }
-    }
+
+        var/ok;
+        if(istype(newLoc, /Room)) {
+            ok = MoveRoom(newLoc);
+        } else if(istype(newLoc, /turf)) {
+            ok = MoveTurf(newLoc);
+        }
+        if(ok) {
+            if(client && msgSelf) {
+                client.out.print(text = msgSelf, prompt = FALSE);
+                client.Command("look");
+            }
+        }    }
 
     /*
     This makes sure to delete the mob when a player disconnects from it.

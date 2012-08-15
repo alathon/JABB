@@ -27,12 +27,20 @@ But until saving/loading rooms and zones/areas is in,
 this means theres a physical world to be around in.
 */
 Room/start
-	login_room
-		desc = {"This is the login room.
+    login_room
+        desc = {"This is the login room.
 Pretty dull, innit."}
-		north = /Room/start/other_room;
 
-	other_room
-		desc = {"This is the room to the north of the login room.
+        New() {
+            . = ..();
+            north = new(src, locate(/Room/start/other_room));
+        }
+
+    other_room
+        desc = {"This is the room to the north of the login room.
 Did you think it was going to be less dull?"}
-		south = /Room/start/login_room;
+        
+        New() {
+            . = ..();
+            south = new(src, locate(/Room/start/login_room));
+        }

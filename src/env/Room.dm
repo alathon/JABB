@@ -31,11 +31,12 @@ can access when inside the room.
 Room
     parent_type = /area
     var
+        templateId;
         list/commands;
-        Room/north;
-        Room/south;
-        Room/east;
-        Room/west;
+        RoomExit/north;
+        RoomExit/south;
+        RoomExit/east;
+        RoomExit/west;
 
     proc
         /*
@@ -65,10 +66,10 @@ Room
         */
         __getExitsText(mob/viewer) {
             . = "#yExits:#z ";
-            if(north && istype(north, /Room)) . += "North ";
-            if(south && istype(south, /Room)) . += "South ";
-            if(east && istype(east, /Room)) . += "East ";
-            if(west && istype(west, /Room)) . += "West ";
+            if(istype(north, /RoomExit)) . += "North ";
+            if(istype(south)) . += "South ";
+            if(istype(east)) . += "East ";
+            if(istype(west)) . += "West ";
 
             if(length(.) == length("#yExits:#z ")) return "#yExits:#z None#n";
             else return "[.]#n";
@@ -119,16 +120,23 @@ Room
             . = "\n[copytext(., 1, -1)]";
         }
 
-    New() {
-        if(ispath(north)) north = locate(north);
-        if(ispath(south)) south = locate(south);
-        if(ispath(east)) east = locate(east);
-        if(ispath(west)) west = locate(west);
-    }
-
-
     describe(atom/target, context) {
         if(istype(target, /mob)) {
             return src.__getDescFor(target);
         }
     }
+
+RoomExit
+    New(Room/source, Room/destination) {
+        src.source = source;
+        src.destination = destination;
+    }
+
+    var
+        Room/source;
+        Room/destination;
+
+    proc
+        canUse(mob/user) {
+            return TRUE;
+        }
