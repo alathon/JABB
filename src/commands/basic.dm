@@ -1,4 +1,40 @@
 Command
+    help
+        format = "help; ?any";
+
+        proc
+            getHelpfiles() {
+                var/list/files = helpfileHandler.getHelpfilesByCategory();
+                for(var/a in files) {
+                    var/list/helps = files[a];
+                    . += "#z[a]#n:\n";
+                    var/helpsLen = length(helps);
+                    for(var/i = 1 to helpsLen) {
+                        var/Helpfile/H = helps[i];
+                        . += "[H.trigger][i < helpsLen ? ", ":""]";
+                    }
+                    . += "\n";
+                }
+            }
+
+        command(mob/user, text) {
+            if(!text) {
+                . = "Type help 'helpfile' to get help on a topic.\n";
+                . += "The following helpfiles are available:\n\n";
+                . += getHelpfiles();
+                user.print(.);
+                return;
+            }
+
+            var/Helpfile/H = helpfileHandler.getHelpfile(text);
+            if(!H || !H.canRead(user)) {
+                user.print("Sorry, no helpfile found for [text]");
+                return;
+            }
+
+            user.print(H.read(user));
+        }
+
     quit
         format = "quit";
 

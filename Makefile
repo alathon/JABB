@@ -1,16 +1,18 @@
 include vars.sh
 
+LOGDATE=$(shell date +'%y-%m-%d')
+
 all: compile
 
 compile:
 	DreamMaker $(TARGET).dme
-	mv $(TARGET).dmb bin/$(DMB)
+	mv ${TARGET}.dmb ${DMB}
 
 stop:
-	kill -9 `pgrep -f "DreamDaemon bin ${DMB}"`
+	kill -9 `pgrep -f "DreamDaemon ${DMB}"`
 
 run:
-	DreamDaemon bin/$(DMB) $(PORT) -log $(LOG) &
+	DreamDaemon $(DMB) $(PORT) -trusted -log logs/$(LOGDATE).log &>./logs/out.log &
 
 depend:
 	DreamDownload Alathon.Alaparser &
@@ -21,7 +23,7 @@ depend:
 
 clean:
 	rm -f $(TARGET).zip
-	rm -f bin/$(DMB)
+	rm -f $(DMB)
 	rm -f $(TARGET).rsc
 
 zip:

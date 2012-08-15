@@ -33,5 +33,7 @@
 #include "src\io\Question.dm"
 #include "src\io\Colorizer.dm"
 #include "src\io\Outputter.dm"
+#include "src\help\Helpfile.dm"
+#include "src\help\HelpfileHelper.dm"
 // END_INCLUDE
 

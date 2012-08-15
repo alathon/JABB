@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2012 Martin Gielsgaard Grünbaum
+Copyright (C) 2012 Martin Gielsgaard GrÃ¼nbaum
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software
 and associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -22,21 +22,33 @@ IN THE SOFTWARE.
 */
 
 /*
-Features to implement:
-
-Standard Room-based world with N/S/E/W exits.                       [Done]
-Basic commands often found on MUDs for interaction with the world.
-    - Movement                                                      [Done]
-    - Basic communication                                           [Done]
-    - Interacting with items/objs
-    - Helpfiles
-A simple login process where you select name, gender and class.
-Commands attached to rooms and to physical objects in the game.
-Simple player-customizable prompts.
-A basic notion of character attributes, levels and experience.
-Items, inventories, equipment.
-Respawn points, for respawning mobs / objs.
-Basic MUD-like concept of an 'area' or 'zone'.
-Basic saving and loading of areas and players, based on a simple flat-file format.
-
+A helpfile is comprised of a trigger (which is a sentence that will match
+the helpfile, in the 'help' Command), and a description. Helpfiles can be
+restricted, by overriding the Helpfile.canRead(mob/viewer) procedure.
 */
+
+Helpfile
+    var
+        // The keyword(s) that will match the helpfile
+        trigger = "";
+        description = "";
+        category;
+
+    proc
+        read(mob/viewer) {
+            . = "[kText.padText("#y[trigger]#n", 28, kText.PAD_BOTH, "-")]\n";
+            . += "[description]\n";
+            . += "[kText.padText("",24, kText.PAD_BOTH, "-")]";
+        }
+
+        matches(text) {
+            text = lowertext(text);
+            var/textLen = length(text);
+            var/triggerLen = length(trigger);
+            if(textLen > triggerLen) return FALSE;
+
+            if(copytext(lowertext(trigger), 1, textLen+1) == text) return TRUE;
+            return FALSE;
+        }
+
+        canRead(mob/viewer) { return TRUE; }
