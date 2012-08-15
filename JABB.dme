@@ -34,6 +34,6 @@
 #include "src\io\Colorizer.dm"
 #include "src\io\Outputter.dm"
 #include "src\help\Helpfile.dm"
-#include "src\help\HelpfileHelper.dm"
+#include "src\help\HelpfileHandler.dm"
 // END_INCLUDE
 
