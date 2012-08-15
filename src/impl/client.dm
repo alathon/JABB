@@ -77,8 +77,9 @@ client
         For now, we don't care about linkdeath, since its not implemented yet.
         */
         __enterGame() {
-            var/LoginProcess/login = new(src);
+            new /LoginProcess(src);
         }
+
 
         __determineClientType() {
             if(!findtext(src.key, ".")) {
