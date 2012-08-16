@@ -58,8 +58,8 @@ mob
                         var/ok = Move(curLoc.vars[dir], "You move [dir].\n");
                         if(ok) {
                             var/Room/newLoc = src.loc;
-                            curLoc.print("[src.describe(null, CONTEXT_SHORT)] moves [dir].");
-                            newLoc.print("[src.describe(null, CONTEXT_SHORT)] enters from the [dir].");
+                            curLoc.print("[src.getName()] moves [dir].");
+                            newLoc.print("[src.getName()] enters from the [dir].", src);
                         } else {
                             src.print("You were unable to go [dir].");
                         }
@@ -117,7 +117,9 @@ mob
                 client.out.print(text = msgSelf, prompt = FALSE);
                 client.Command("look");
             }
-        }    }
+        }
+        return ok;
+    }
 
     /*
     This makes sure to delete the mob when a player disconnects from it.
