@@ -21,6 +21,16 @@ IN THE SOFTWARE.
 
 */
 
+var/list/reverseDirections = list(  "north" = "south",
+                                    "south" = "north",
+                                    "east" = "west",
+                                    "west" = "east");
+
+proc
+    reverseDir(dir) {
+        if(dir in reverseDirections) return reverseDirections[dir];
+    }
+
 mob
     proc
         /* Movement procedures for room and turf */
@@ -59,7 +69,7 @@ mob
                         if(ok) {
                             var/Room/newLoc = src.loc;
                             curLoc.print("[src.describe(null, CONTEXT_SHORT)] moves [dir].");
-                            newLoc.print("[src.describe(null, CONTEXT_SHORT)] enters from the [dir].");
+                            newLoc.print("[src.describe(null, CONTEXT_SHORT)] enters from the [reverseDir(dir)].");
                         } else {
                             src.print("You were unable to go [dir].");
                         }

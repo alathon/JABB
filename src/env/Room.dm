@@ -93,7 +93,7 @@ Room
             . = "";
             . += "#z[src.name]#n\n";
             . += "[src.desc]\n";
-            . += "[src.__getExitsText(viewer)]";
+            . += "[src.__getExitsText(viewer)]\n";
         }
 
         /*
@@ -126,6 +126,12 @@ Room
         }
     }
 
+/*
+A /RoomExit is a passage from a source room
+to a destination room. The passage can optionally
+be blocked (not yet implemented) by f.ex a door,
+a magical barrier or something else.
+*/
 RoomExit
     New(Room/source, Room/destination) {
         src.source = source;

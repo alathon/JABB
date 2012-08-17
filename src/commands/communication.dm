@@ -27,8 +27,8 @@ Command
 
         command(mob/user, txt) {
             var/Room/R = user.loc;
-            R.print("[user.getName()] says, '[txt]'", user);
-            user.print("You say, '[txt]'");
+            R.print("[user.getName()] says, '[txt]#n'", user);
+            user.print("You say, '[txt]#n'");
         }
 
     tell
@@ -36,11 +36,11 @@ Command
 
         command(mob/user, mob/target, txt) {
             if(target == user) {
-                user.print("You tell yourself (Weirdo), '[txt]'");
+                user.print("You tell yourself (Weirdo), '[txt]#n'");
                 return;
             }
 
-            target.print("[user.getName()] tells you, '[txt]'");
-            user.print("You tell [target.getName()], '[txt]'");
+            target.print("[user.getName()] tells you, '[txt]#n'");
+            user.print("You tell [target.getName()], '[txt]#n'");
         }
 
