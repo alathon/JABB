@@ -33,9 +33,8 @@ will color text. It has support for HTML coloring as well, because
 clients connected via DreamSeeker need HTML-tag colors, not ANSI escape
 codes.
 */
+var/Colorizer/colorizer = new();
 
-proc
-    
 Colorizer
     New() {
         for(var/A in typesof(/sequence/html/) - /sequence/html)
@@ -106,8 +105,6 @@ Colorizer
                     if(cur_color != seq) {
                         . += seq;
                         cur_color = seq;
-                    } else {
-                        world << "Skipping same-color definition.";
                     }
                 }
                 start = next + 2

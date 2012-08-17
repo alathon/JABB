@@ -35,14 +35,14 @@ Outputter
 
     var
         client/__source;
-        Colorizer/__colorizer = new();
 
     proc
         __sendPrompt() {
         }
 
         __color(t) {
-            return __colorizer.colorize(t, src.__source.client_type);
+            if(colorizer) return colorizer.colorize(t, src.__source.client_type);
+            else return t;
         }
 
         __send(t) {
@@ -50,7 +50,7 @@ Outputter
         }
 
         print(text, prompt = TRUE, color = TRUE) {
-            if(__colorizer != null && color) text = __color(text);
+            if(colorizer != null && color) text = __color(text);
             src.__send(text);
             if(prompt) src.__sendPrompt();
         }
@@ -62,7 +62,8 @@ Outputter
             }
         }
         __color(t) {
-            return __colorizer.colorize(t, CLIENT_DS);
+            if(colorizer) return colorizer.colorize(t, CLIENT_DS);
+            else return t;
         }
 
     Telnet
@@ -71,7 +72,8 @@ Outputter
         }
 
         __color(t) {
-            return __colorizer.colorize(t, CLIENT_TELNET);
+            if(colorizer) return colorizer.colorize(t, CLIENT_TELNET);
+            else return t;
         }
 
         __sendPrompt() {
