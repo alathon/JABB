@@ -27,6 +27,12 @@ Command
 
         command(mob/user, txt) {
             var/Room/R = user.loc;
+            var/colorlessLen = length(txt) - (colorizer.countTelnetColors(txt) * 2);
+            if(colorlessLen > 80) {
+                user.print("Thats way too much at once. Try saying less :)");
+                return;
+            }
+
             R.print("[user.getName()] says, '[txt]#n'", user);
             user.print("You say, '[txt]#n'");
         }
@@ -35,6 +41,12 @@ Command
         format = "tell; ~search(mob@players); any";
 
         command(mob/user, mob/target, txt) {
+            var/colorlessLen = length(txt) - (colorizer.countTelnetColors(txt) * 2);
+            if(colorlessLen > 80) {
+                user.print("Thats way too much at once. Try saying less :)");
+                return;
+            }
+
             if(target == user) {
                 user.print("You tell yourself (Weirdo), '[txt]#n'");
                 return;

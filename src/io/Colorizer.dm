@@ -50,6 +50,28 @@ Colorizer
         color_char = "#";
 
     proc
+        countTelnetColors(t) {
+            var
+                cur_seq;
+                symbol = findtext(t, "#");
+                count = 0;
+
+            while(symbol) {
+                var/next = copytext(t, symbol+1, symbol+2);
+                var/seq = __findTelnetSequence(next);
+                if(seq) {
+                    if(cur_seq != seq) {
+                        count++;
+                        cur_seq = seq;
+                    }
+                }
+
+                symbol = findtext(t, "#", symbol+2);
+            }
+
+            return count;
+        }
+
         colorize(t, color_mode) {
             switch(color_mode)
                 if(TELNET_COLOR)
