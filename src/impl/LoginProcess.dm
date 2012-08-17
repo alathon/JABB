@@ -60,8 +60,8 @@ LoginProcess
 
 Question/login
     loadOrCreate
-        question = "Would you like to #z(#yL#z)#noad a character or #z(#yC#z)#nreate a new one?";
-        retryQuestion = "Would you like to #z(#yL#z)#noad a character or #z(#yC#z)#nreate a new one?";
+        question = "Would you like to (#yL#n)oad a character or (#yC#n)reate a new one?";
+        retryQuestion = "Would you like to (#yL#n)oad a character or (#yC#n)reate a new one?";
         tries = 3;
 
         getValue() {
