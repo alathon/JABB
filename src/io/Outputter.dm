@@ -54,7 +54,7 @@ Outputter
         }
 
         pprint(text, color = TRUE) {
-            src.print(text, prompt = TRUE, color);
+            src.print(text, TRUE, color);
         }
 
         print(text, prompt = FALSE, color = TRUE) {
@@ -65,13 +65,15 @@ Outputter
                 text = "\n[text]";
             }
 
+            src.__send(text);
             if(prompt) {
+                text = "";
                 if(src.__nlBefore) {
-                    text += "\n";
+                    text = "\n";
                 }
                 text += src.__source.getPrompt();
+                src.__send(text);
             }
-            src.__send(text);
         }
 
     DS

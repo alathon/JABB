@@ -96,7 +96,7 @@ Room
             . = "";
             . += "#z[src.name]#n\n";
             . += "[src.desc]\n";
-            . += "[src.__getExitsText(viewer)]\n";
+            . += "[src.__getExitsText(viewer)]";
         }
 
         /*
@@ -106,7 +106,6 @@ Room
         */
         __getContentsFor(mob/viewer) {
             . = "";
-            var/len = length(src.contents);
             for(var/mob/M in src.contents) {
                 if(M == viewer) continue;
                 var/desc = M.describe(viewer, CONTEXT_SHORT);
@@ -120,6 +119,7 @@ Room
                     . += "[desc]\n";
                 }
             }
+            . = copytext(., 1, length(.) - 1);
         }
 
     describe(atom/target, context) {

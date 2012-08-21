@@ -58,7 +58,7 @@ client
 
             var/ParserOutput/out = alaparser.parse(char, T, extras);
             if(!out.getMatchSuccess()) {
-                src.out.print("Huh?");
+                src.out.pprint("Huh?");
             }
         }
     }
