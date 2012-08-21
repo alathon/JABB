@@ -1,4 +1,23 @@
 Command
+    prompt
+        format = "prompt; !on|!off|!status";
+
+        command(mob/user, mode) {
+            switch(mode) {
+                if("on") {
+                    user.client.out.__promptConfig = user.client.out.PROMPT_ON;
+                }
+                if("off") {
+                    user.client.out.__promptConfig = user.client.out.PROMPT_OFF;
+                }
+                if("status") {
+                    user.client.out.__promptConfig = user.client.out.PROMPT_STATUS;
+                }
+            }
+
+            user.print("You set your prompt-mode to: " + mode);
+        }
+
     help
         format = "help; ?any";
 
@@ -22,13 +41,13 @@ Command
                 . = "Type help 'helpfile' to get help on a topic.\n";
                 . += "The following helpfiles are available:\n\n";
                 . += getHelpfiles();
-                user.print(text = ., prompt = TRUE);
+                user.print(.);
                 return;
             }
 
             var/Helpfile/H = helpfileHandler.getHelpfile(text);
             if(!H || !H.canRead(user)) {
-                user.print(text = "Sorry, no helpfile found for [text]", prompt = TRUE);
+                user.print("Sorry, no helpfile found for [text]");
                 return;
             }
 
@@ -39,7 +58,7 @@ Command
         format = "quit";
 
         command(mob/user) {
-            user.print(text = "Goodbye! And thanks for testing out [world.name]!", prompt = TRUE);
+            user.print("Goodbye! And thanks for testing out [world.name]!");
             del user;
         }
 
@@ -56,7 +75,7 @@ Command
                 playerCount++;
             }
             . += kText.padText("#zPlayers on: #y[playerCount]#n", 26, kText.PAD_BOTH, "-");
-            user.print(text = ., prompt = TRUE);
+            user.print(.);
         }
 
     look
@@ -66,7 +85,7 @@ Command
             var/desc;
             if(!M) {
                 if(at) {
-                    user.print(text = "Look at what?", prompt = TRUE);
+                    user.print("Look at what?");
                     return;
                 }
 
@@ -77,5 +96,5 @@ Command
             } else {
                 desc = M.describe(user, CONTEXT_LONG);
             }
-            user.print(text = desc, prompt = TRUE);
+            user.print(desc);
         }

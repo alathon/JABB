@@ -34,14 +34,44 @@ Outputter
     }
 
     var
+        const
+            PROMPT_ON = 1;
+            PROMPT_OFF = 2;
+            PROMPT_STATUS = 3;
+
+        __promptConfig = PROMPT_OFF;
         __nlBefore = TRUE;
         __promptSent = FALSE;
         client/__source;
 
     proc
+        __getStatusText() {
+            return src.__source.getStatusText();
+        }
+
+        __shouldPrompt() {
+            return (src.__promptConfig != PROMPT_OFF);
+        }
 
         __sendPrompt() {
             src.__promptSent = TRUE;
+            var/promptText = ">";
+
+            if(src.__promptConfig == PROMPT_STATUS) {
+                promptText = src.__getStatusText();
+            }
+
+            if(src.__nlBefore) promptText = "\n[promptText]\...";
+            src.__send(promptText);
+        }
+
+        __sendStatus() {
+            var/statusText = src.__getStatusText();
+
+            src.__promptSent = TRUE;
+            if(src.__nlBefore) statusText = "\n[statusText]\...";
+
+            src.__send(statusText);
         }
 
         __color(t) {
@@ -53,11 +83,7 @@ Outputter
             src.__source << t;
         }
 
-        pprint(text, color = TRUE) {
-            src.print(text, TRUE, color);
-        }
-
-        print(text, prompt = FALSE, color = TRUE) {
+        print(text, status = FALSE, color = TRUE) {
             if(colorizer != null && color) text = __color(text);
 
             if(src.__promptSent) {
@@ -66,13 +92,10 @@ Outputter
             }
 
             src.__send(text);
-            if(prompt) {
-                text = "";
-                if(src.__nlBefore) {
-                    text = "\n";
-                }
-                text += src.__source.getPrompt();
-                src.__send(text);
+            if(status) {
+                src.__sendStatus();
+            } else if(src.__shouldPrompt()) {
+                src.__sendPrompt();
             }
         }
 

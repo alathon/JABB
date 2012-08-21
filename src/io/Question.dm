@@ -28,5 +28,5 @@ giving us color support.
 
 Question
     sendToClient(client/C, txt) {
-        C.out.print(text = txt, prompt = FALSE);
+        C.out.print(text = txt);
     }

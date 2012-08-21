@@ -49,8 +49,8 @@ mob
         }
 
         /* The mobs prompt. */
-        getPrompt() {
-            return "\<Prompt here\>";
+        getStatusText() {
+            return "\<Status Text Here\>";
         }
 
         /* Shorthand for sending text to the client, that owns the Outputter. */

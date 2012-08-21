@@ -56,10 +56,12 @@ client
                 extras = R.getRoomCommands();
             }
 
-            var/ParserOutput/out = alaparser.parse(char, T, extras);
-            if(!out.getMatchSuccess()) {
-                src.out.pprint("Huh?");
+            var/ParserOutput/parserOut = alaparser.parse(char, T, extras);
+            if(!parserOut.getMatchSuccess()) {
+                src.out.print("Huh?");
             }
+
+            if(src.out.__promptConfig == src.out.PROMPT_OFF) src << "";
         }
     }
 
@@ -91,8 +93,8 @@ client
             }
         }
 
-        getPrompt() {
-            return mob.getPrompt();
+        getStatusText() {
+            return mob.getStatusText();
         }
 
         getCharacter() {
