@@ -75,9 +75,8 @@ Outputter
         var
             __nlAfter = TRUE;
 
-        New(__source, __newline = TRUE) {
+        New(__source) {
             ..(__source);
-            src.__nlAfter = __newline;
         }
 
         __color(t) {
