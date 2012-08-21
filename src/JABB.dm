@@ -21,22 +21,5 @@ IN THE SOFTWARE.
 
 */
 
-/*
-Features to implement:
-
-Standard Room-based world with N/S/E/W exits.                       [Done]
-Basic commands often found on MUDs for interaction with the world.
-    - Movement                                                      [Done]
-    - Basic communication                                           [Done]
-    - Interacting with items/objs
-    - Helpfiles
-A simple login process where you select name, gender and class.
-Commands attached to rooms and to physical objects in the game.
-Simple player-customizable prompts.
-A basic notion of character attributes, levels and experience.
-Items, inventories, equipment.
-Respawn points, for respawning mobs / objs.
-Basic MUD-like concept of an 'area' or 'zone'.
-Basic saving and loading of areas and players, based on a simple flat-file format.
-
-*/
+world
+    version = 1;

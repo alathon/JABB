@@ -36,6 +36,7 @@ LoginProcess
         }
 
         __go() {
+            src.__user.out.print("Welcome to [world.name] v[world.version]");
             var/Question/login/loadOrCreate/first = new(source = src.__user);
 
             if(!src.__user) del src; // Client not there.
