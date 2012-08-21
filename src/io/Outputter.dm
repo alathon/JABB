@@ -37,6 +37,7 @@ Outputter
         client/__source;
 
     proc
+
         __sendPrompt() {
         }
 
@@ -49,7 +50,11 @@ Outputter
             src.__source << t;
         }
 
-        print(text, prompt = TRUE, color = TRUE) {
+        pprint(text, color = TRUE) {
+            src.print(text, prompt = TRUE, color);
+        }
+
+        print(text, prompt = FALSE, color = TRUE) {
             if(colorizer != null && color) text = __color(text);
             src.__send(text);
             if(prompt) src.__sendPrompt();
@@ -67,8 +72,12 @@ Outputter
         }
 
     Telnet
-        New(__source) {
+        var
+            __newlineBeforePrompt;
+
+        New(__source, __newline = TRUE) {
             ..(__source);
+            src.__newlineBeforePrompt = __newline;
         }
 
         __color(t) {
@@ -78,6 +87,7 @@ Outputter
 
         __sendPrompt() {
             if(src.__source.getPrompt()) {
-                src.__send("\n[src.__source.getPrompt()]\...");
+                var/nl = src.__newlineBeforePrompt ? "\n":"";
+                src.__send("[nl][src.__source.getPrompt()]\...");
             }
         }

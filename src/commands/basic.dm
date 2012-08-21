@@ -22,13 +22,13 @@ Command
                 . = "Type help 'helpfile' to get help on a topic.\n";
                 . += "The following helpfiles are available:\n\n";
                 . += getHelpfiles();
-                user.print(.);
+                user.print(text = ., prompt = TRUE);
                 return;
             }
 
             var/Helpfile/H = helpfileHandler.getHelpfile(text);
             if(!H || !H.canRead(user)) {
-                user.print("Sorry, no helpfile found for [text]");
+                user.print(text = "Sorry, no helpfile found for [text]", prompt = TRUE);
                 return;
             }
 
@@ -39,7 +39,7 @@ Command
         format = "quit";
 
         command(mob/user) {
-            user << "Goodbye! And thanks for testing out [world.name]!";
+            user.print(text = "Goodbye! And thanks for testing out [world.name]!", prompt = TRUE);
             del user;
         }
 
@@ -56,7 +56,7 @@ Command
                 playerCount++;
             }
             . += kText.padText("#zPlayers on: #y[playerCount]#n", 26, kText.PAD_BOTH, "-");
-            user.print(.);
+            user.print(text = ., prompt = TRUE);
         }
 
     look
@@ -66,7 +66,7 @@ Command
             var/desc;
             if(!M) {
                 if(at) {
-                    user.print("Look at what?");
+                    user.print(text = "Look at what?", prompt = TRUE);
                     return;
                 }
 
@@ -77,5 +77,5 @@ Command
             } else {
                 desc = M.describe(user, CONTEXT_LONG);
             }
-            user.print(desc);
+            user.print(text = desc, prompt = TRUE);
         }

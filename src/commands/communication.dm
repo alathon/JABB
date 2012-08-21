@@ -27,32 +27,34 @@ Command
 
         command(mob/user, txt) {
             var/Room/R = user.loc;
+            txt = Sanitizer.sanitize(txt);
             var/colorlessLen = length(txt) - (colorizer.countTelnetColors(txt) * 2);
             if(colorlessLen > 80) {
-                user.print("Thats way too much at once. Try saying less :)");
+                user.print(text ="Thats way too much at once. Try saying less :)", prompt = TRUE);
                 return;
             }
 
+
             R.print("[user.getName()] says, '[txt]#n'", user);
-            user.print("You say, '[txt]#n'");
+            user.print(text = "You say, '[txt]#n'", prompt = TRUE);
         }
 
     tell
         format = "tell; ~search(mob@players); any";
 
         command(mob/user, mob/target, txt) {
+            txt = Sanitizer.sanitize(txt);
             var/colorlessLen = length(txt) - (colorizer.countTelnetColors(txt) * 2);
             if(colorlessLen > 80) {
-                user.print("Thats way too much at once. Try saying less :)");
+                user.print(text = "Thats way too much at once. Try saying less :)", prompt = TRUE);
                 return;
             }
 
             if(target == user) {
-                user.print("You tell yourself (Weirdo), '[txt]#n'");
+                user.print(text = "You tell yourself (Weirdo), '[txt]#n'", prompt = TRUE);
                 return;
             }
 
             target.print("[user.getName()] tells you, '[txt]#n'");
-            user.print("You tell [target.getName()], '[txt]#n'");
+            user.print(text = "You tell [target.getName()], '[txt]#n'", prompt = TRUE);
         }
-
