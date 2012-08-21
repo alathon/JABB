@@ -96,7 +96,7 @@ Room
             . = "";
             . += "#z[src.name]#n\n";
             . += "[src.desc]\n";
-            . += "[src.__getExitsText(viewer)]";
+            . += "[src.__getExitsText(viewer)]\n";
         }
 
         /*
@@ -119,9 +119,6 @@ Room
                 if(desc) {
                     . += "[desc]\n";
                 }
-            }
-            if(.) {
-                . = copytext(., 1, length(.) - 1);
             }
         }
 

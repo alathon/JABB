@@ -34,6 +34,7 @@ Outputter
     }
 
     var
+        __nlBefore = TRUE;
         __promptSent = FALSE;
         client/__source;
 
@@ -49,10 +50,6 @@ Outputter
         }
 
         __send(t) {
-            if(src.__promptSent) {
-                src.__promptSent = FALSE;
-                src.__source << "";
-            }
             src.__source << t;
         }
 
@@ -62,39 +59,29 @@ Outputter
 
         print(text, prompt = FALSE, color = TRUE) {
             if(colorizer != null && color) text = __color(text);
+
+            if(src.__promptSent) {
+                src.__promptSent = FALSE;
+                text = "\n[text]";
+            }
+
+            if(prompt) {
+                if(src.__nlBefore) {
+                    text += "\n";
+                }
+                text += src.__source.getPrompt();
+            }
             src.__send(text);
-            if(prompt) src.__sendPrompt();
         }
 
     DS
-        __sendPrompt() {
-            if(src.__source.getPrompt()) {
-                src.__send("\n[src.__source.getPrompt()]");
-            }
-            ..();
-        }
         __color(t) {
             if(colorizer) return colorizer.colorize(t, CLIENT_DS);
             else return t;
         }
 
     Telnet
-        var
-            __nlBefore = TRUE;
-
-        New(__source) {
-            ..(__source);
-        }
-
         __color(t) {
             if(colorizer) return colorizer.colorize(t, CLIENT_TELNET);
             else return t;
-        }
-
-        __sendPrompt() {
-            if(src.__source.getPrompt()) {
-                var/nl = src.__nlBefore ? "\n":"";
-                src.__send("[nl][src.__source.getPrompt()]\...");
-            }
-            ..();
         }
