@@ -122,7 +122,7 @@ Colorizer
                 color_val = copytext(t, next+1, next+2)
                 seq = __findTelnetSequence(color_val)
                 if(!seq) {
-                    . += "[color_val]";
+                    . += "#[color_val]";
                 } else {
                     if(cur_color != seq) {
                         . += seq;

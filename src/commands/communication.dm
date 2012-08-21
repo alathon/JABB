@@ -27,7 +27,7 @@ Command
 
         command(mob/user, txt) {
             var/Room/R = user.loc;
-            txt = Sanitizer.sanitize(txt);
+            txt = html_encode(txt);
             var/colorlessLen = length(txt) - (colorizer.countTelnetColors(txt) * 2);
             if(colorlessLen > 80) {
                 user.print("Thats way too much at once. Try saying less :)");
@@ -43,7 +43,7 @@ Command
         format = "tell; ~search(mob@players); any";
 
         command(mob/user, mob/target, txt) {
-            txt = Sanitizer.sanitize(txt);
+            txt = html_encode(txt);
             var/colorlessLen = length(txt) - (colorizer.countTelnetColors(txt) * 2);
             if(colorlessLen > 80) {
                 user.print("Thats way too much at once. Try saying less :)");
