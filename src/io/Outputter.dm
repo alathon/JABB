@@ -73,11 +73,11 @@ Outputter
 
     Telnet
         var
-            __newlineBeforePrompt;
+            __nlAfter = TRUE;
 
         New(__source, __newline = TRUE) {
             ..(__source);
-            src.__newlineBeforePrompt = __newline;
+            src.__nlAfter = __newline;
         }
 
         __color(t) {
@@ -87,7 +87,7 @@ Outputter
 
         __sendPrompt() {
             if(src.__source.getPrompt()) {
-                var/nl = src.__newlineBeforePrompt ? "\n":"";
-                src.__send("[nl][src.__source.getPrompt()]\...");
+                var/nl = src.__nlAfter ? "\n":"";
+                src.__send("[src.__source.getPrompt()][nl]\...");
             }
         }
