@@ -30,13 +30,13 @@ Command
             txt = Sanitizer.sanitize(txt);
             var/colorlessLen = length(txt) - (colorizer.countTelnetColors(txt) * 2);
             if(colorlessLen > 80) {
-                user.print(text ="Thats way too much at once. Try saying less :)", prompt = TRUE);
+                user.print("Thats way too much at once. Try saying less :)");
                 return;
             }
 
 
             R.print("[user.getName()] says, '[txt]#n'", user);
-            user.print(text = "You say, '[txt]#n'", prompt = TRUE);
+            user.print("You say, '[txt]#n'");
         }
 
     tell
@@ -46,15 +46,15 @@ Command
             txt = Sanitizer.sanitize(txt);
             var/colorlessLen = length(txt) - (colorizer.countTelnetColors(txt) * 2);
             if(colorlessLen > 80) {
-                user.print(text = "Thats way too much at once. Try saying less :)", prompt = TRUE);
+                user.print("Thats way too much at once. Try saying less :)");
                 return;
             }
 
             if(target == user) {
-                user.print(text = "You tell yourself (Weirdo), '[txt]#n'", prompt = TRUE);
+                user.print("You tell yourself (Weirdo), '[txt]#n'");
                 return;
             }
 
             target.print("[user.getName()] tells you, '[txt]#n'");
-            user.print(text = "You tell [target.getName()], '[txt]#n'", prompt = TRUE);
+            user.print("You tell [target.getName()], '[txt]#n'");
         }

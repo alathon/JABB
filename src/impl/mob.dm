@@ -54,7 +54,7 @@ mob
         }
 
         /* Shorthand for sending text to the client, that owns the Outputter. */
-        print(text, prompt = TRUE, color = TRUE) {
+        print(text, prompt = FALSE, color = TRUE) {
             if(client) client.out.print(text, prompt, color);
         }
 

@@ -34,11 +34,13 @@ Outputter
     }
 
     var
+        __promptSent = FALSE;
         client/__source;
 
     proc
 
         __sendPrompt() {
+            src.__promptSent = TRUE;
         }
 
         __color(t) {
@@ -47,6 +49,10 @@ Outputter
         }
 
         __send(t) {
+            if(src.__promptSent) {
+                src.__promptSent = FALSE;
+                src.__source << "";
+            }
             src.__source << t;
         }
 
@@ -65,6 +71,7 @@ Outputter
             if(src.__source.getPrompt()) {
                 src.__send("\n[src.__source.getPrompt()]");
             }
+            ..();
         }
         __color(t) {
             if(colorizer) return colorizer.colorize(t, CLIENT_DS);
@@ -73,7 +80,7 @@ Outputter
 
     Telnet
         var
-            __nlAfter = TRUE;
+            __nlBefore = TRUE;
 
         New(__source) {
             ..(__source);
@@ -86,7 +93,8 @@ Outputter
 
         __sendPrompt() {
             if(src.__source.getPrompt()) {
-                var/nl = src.__nlAfter ? "\n":"";
-                src.__send("[src.__source.getPrompt()][nl]\...");
+                var/nl = src.__nlBefore ? "\n":"";
+                src.__send("[nl][src.__source.getPrompt()]\...");
             }
+            ..();
         }
