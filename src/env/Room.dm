@@ -85,7 +85,7 @@ Room
             . += __getRoomDesc(viewer);
             var/content = __getContentsFor(viewer);
             if(content != "") {
-                . += "\n[content]";
+                . += "\n\n[content]";
             }
         }
 
