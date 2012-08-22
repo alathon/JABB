@@ -5,13 +5,13 @@ Command
         command(mob/user, mode) {
             switch(mode) {
                 if("on") {
-                    user.client.out.__promptConfig = user.client.out.PROMPT_ON;
+                    user.client.out.setPromptConfig(PROMPT_ON);
                 }
                 if("off") {
-                    user.client.out.__promptConfig = user.client.out.PROMPT_OFF;
+                    user.client.out.setPromptConfig(PROMPT_OFF);
                 }
                 if("status") {
-                    user.client.out.__promptConfig = user.client.out.PROMPT_STATUS;
+                    user.client.out.setPromptConfig(PROMPT_STATUS);
                 }
             }
 
@@ -26,7 +26,7 @@ Command
                 var/list/files = helpfileHandler.getHelpfilesByCategory();
                 for(var/a in files) {
                     var/list/helps = files[a];
-                    . += "#z[a]#n:\n";
+                    . += "%z[a]%n:\n";
                     var/helpsLen = length(helps);
                     for(var/i = 1 to helpsLen) {
                         var/Helpfile/H = helps[i];
@@ -66,7 +66,7 @@ Command
         format = "who";
 
         command(mob/user) {
-            . = kText.padText("#z[world.name]#n", 24, kText.PAD_BOTH, "-");
+            . = kText.padText("%z[world.name]%n", 24, kText.PAD_BOTH, "-");
             . += "\n";
             var/playerCount = 0;
             for(var/client/other) {
@@ -74,7 +74,7 @@ Command
                 . += "[M.getName()]\n";
                 playerCount++;
             }
-            . += kText.padText("#zPlayers on: #y[playerCount]#n", 26, kText.PAD_BOTH, "-");
+            . += kText.padText("%zPlayers on: %y[playerCount]%n", 26, kText.PAD_BOTH, "-");
             user.print(.);
         }
 

@@ -18,6 +18,7 @@
 #include <stephen001\eventscheduling\Events\Events.dme>
 #include <alathon\inputgrabber\InputGrabber.dme>
 #include <keeth\ktext\kText.dme>
+#include "src\global_consts.dm"
 #include "src\JABB.dm"
 #include "src\commands\rangeOption.dm"
 #include "src\commands\communication.dm"
@@ -33,6 +34,7 @@
 #include "src\io\Question.dm"
 #include "src\io\Colorizer.dm"
 #include "src\io\Outputter.dm"
+#include "src\io\Sanitizer.dm"
 #include "src\help\Helpfile.dm"
 #include "src\help\HelpfileHandler.dm"
 // END_INCLUDE

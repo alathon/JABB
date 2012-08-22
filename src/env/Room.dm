@@ -65,14 +65,14 @@ Room
         the mob viewer can see.
         */
         __getExitsText(mob/viewer) {
-            . = "#yExits:#z ";
+            . = "%yExits:%z ";
             if(istype(north, /RoomExit)) . += "North ";
             if(istype(south)) . += "South ";
             if(istype(east)) . += "East ";
             if(istype(west)) . += "West ";
 
-            if(length(.) == length("#yExits:#z ")) return "#yExits:#z None#n";
-            else return "[.]#n";
+            if(length(.) == length("%yExits:%z ")) return "%yExits:%z None%n";
+            else return "[.]%n";
         }
 
         /*
@@ -94,7 +94,7 @@ Room
         */
         __getRoomDesc(mob/viewer) {
             . = "";
-            . += "#z[src.name]#n\n";
+            . += "%z[src.name]%n\n";
             . += "[src.desc]\n";
             . += "[src.__getExitsText(viewer)]";
         }

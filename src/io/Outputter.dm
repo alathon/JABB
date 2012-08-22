@@ -34,13 +34,9 @@ Outputter
     }
 
     var
-        const
-            PROMPT_ON = 1;
-            PROMPT_OFF = 2;
-            PROMPT_STATUS = 3;
-
+        __colorMode = COLOR_ON;
         __promptConfig = PROMPT_OFF;
-        __nlBefore = TRUE;
+        __nlBeforePrompt = TRUE;
         __promptSent = FALSE;
         client/__source;
 
@@ -61,7 +57,7 @@ Outputter
                 promptText = src.__getStatusText();
             }
 
-            if(src.__nlBefore) promptText = "\n[promptText]\...";
+            if(src.__nlBeforePrompt) promptText = "\n[promptText]\...";
             src.__send(promptText);
         }
 
@@ -69,13 +65,13 @@ Outputter
             var/statusText = src.__getStatusText();
 
             src.__promptSent = TRUE;
-            if(src.__nlBefore) statusText = "\n[statusText]\...";
+            if(src.__nlBeforePrompt) statusText = "\n[statusText]\...";
 
             src.__send(statusText);
         }
 
         __color(t) {
-            if(colorizer) return colorizer.colorize(t, src.__source.client_type);
+            if(colorizer) return colorizer.colorize(t, src.__colorMode);
             else return t;
         }
 
@@ -83,8 +79,16 @@ Outputter
             src.__source << t;
         }
 
-        print(text, status = FALSE, color = TRUE) {
-            if(colorizer != null && color) text = __color(text);
+        __isForcedStatus() {
+            return FALSE;
+        }
+
+        setPromptConfig(configOpt) {
+            src.__promptConfig = configOpt;
+        }
+
+        print(text, status = FALSE) {
+            text = __color(text);
 
             if(src.__promptSent) {
                 src.__promptSent = FALSE;
@@ -92,21 +96,9 @@ Outputter
             }
 
             src.__send(text);
-            if(status) {
+            if(status || src.__isForcedStatus()) {
                 src.__sendStatus();
             } else if(src.__shouldPrompt()) {
                 src.__sendPrompt();
             }
-        }
-
-    DS
-        __color(t) {
-            if(colorizer) return colorizer.colorize(t, CLIENT_DS);
-            else return t;
-        }
-
-    Telnet
-        __color(t) {
-            if(colorizer) return colorizer.colorize(t, CLIENT_TELNET);
-            else return t;
         }

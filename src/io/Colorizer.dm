@@ -21,39 +21,28 @@ IN THE SOFTWARE.
 
 */
 
-// HTML-specific constants
-#define EXPECT_CHAR 0
-#define EXPECT_CCODE 1
-#define TELNET_COLOR CLIENT_TELNET
-#define HTML_COLOR CLIENT_DS
-
 /*
 Colorizer exposes the colorize(text, color_mode) procedure, which
-will color text. It has support for HTML coloring as well, because
-clients connected via DreamSeeker need HTML-tag colors, not ANSI escape
-codes.
+will color text. 
 */
+
 var/Colorizer/colorizer = new();
 
 Colorizer
     New() {
-        for(var/A in typesof(/sequence/html/) - /sequence/html)
-            html_sequences += new A()
         for(var/A in typesof(/sequence/telnet/) - /sequence/telnet)
             var/sequence/S = new A()
             telnet_sequences += S.character
             telnet_sequences[S.character] = S
     }
     var
-        html_sequences = list();
         telnet_sequences = list();
-        color_char = "#";
 
     proc
         countTelnetColors(t) {
             var
                 cur_seq;
-                symbol = findtext(t, "#");
+                symbol = findtext(t, COLOR_CHAR);
                 count = 0;
 
             while(symbol) {
@@ -66,33 +55,27 @@ Colorizer
                     }
                 }
 
-                symbol = findtext(t, "#", symbol+2);
+                symbol = findtext(t, COLOR_CHAR, symbol+2);
             }
 
             return count;
         }
 
         colorize(t, color_mode) {
-            switch(color_mode)
-                if(TELNET_COLOR)
-                    return __telnetColor(t)
-                if(HTML_COLOR)
-                    return __HTMLColor(t)
-                else
+            switch(color_mode) {
+                if(COLOR_ON) {
+                    return __telnetColor(t);
+                }
+                if(COLOR_OFF) {
+                    return __telnetColor(t, TRUE);
+                }
+                if(COLOR_256) {
+                    return __telnetColor(t);;
+                } else {
+                    return t;
+                }
+            }
         }
-
-        __findHTMLSequence(i)
-            var/tmp
-                setBold = 0
-                color   = ""
-            for(var/sequence/S in html_sequences)
-                if(i == S.character)
-                    color = S.function()
-                    if(cmptext(copytext(color,length(color) - 2),"<b>"))
-                        setBold = 1
-                    color = S.function()
-                    break
-            return list(color,setBold)
 
         __findTelnetSequence(i)
             if(i in telnet_sequences)
@@ -101,13 +84,13 @@ Colorizer
             return null
 
 
-        __telnetColor(t)
+        __telnetColor(t, strip = FALSE)
             var/tmp
                 tlen = length(t)
                 color_val = ""
                 seq = ""
                 start = 1
-                next  = findtext(t, "#")
+                next  = findtext(t, COLOR_CHAR)
                 cur_color;
 
             if(!next) return t
@@ -122,73 +105,18 @@ Colorizer
                 color_val = copytext(t, next+1, next+2)
                 seq = __findTelnetSequence(color_val)
                 if(!seq) {
-                    . += "#[color_val]";
+                    . += "[COLOR_CHAR][color_val]";
                 } else {
-                    if(cur_color != seq) {
+                    if(cur_color != seq && !strip) {
                         . += seq;
                         cur_color = seq;
                     }
                 }
                 start = next + 2
-                next = findtext(t, "#", start)
+                next = findtext(t, COLOR_CHAR, start)
 
             if(next != tlen)
                 . += copytext(t, start, 0)
-
-        __HTMLColor(t)
-            var/tmp
-                tlen = length(t)
-                i = 1
-                mode = 0
-                newmsg = ""
-                char = ""
-                code = ""
-                bold_count = 0
-                bold = 0
-                colorcodes = 0
-                list
-                    sequence_info = list()
-
-            for(i=1, i <= tlen, i++)
-                char = copytext(t,i,i+1)
-                if(cmptext(char,color_char))
-                    mode = !mode
-                    if(mode == EXPECT_CHAR)
-                        newmsg += "[color_char]"
-                    continue
-
-                else
-                    if(mode == EXPECT_CHAR)
-                        newmsg += char
-                        continue
-
-                    else if(mode == EXPECT_CCODE)
-                        sequence_info = __findHTMLSequence(char)
-                        code = sequence_info[1]
-                        bold = sequence_info[2]
-                        if(!code)
-                            newmsg += "[color_char][char]"
-                            mode = !mode
-                            continue
-
-                        else
-                            if(!colorcodes)
-                                newmsg += "[code]"
-                                colorcodes = 1
-                            else
-                                if(bold_count)
-                                    newmsg += "</b>"
-                                    bold_count--
-                                newmsg += "</font>"
-                                newmsg += "[code]"
-                            if(bold)
-                                bold_count++
-                            mode = !mode
-
-                            code = ""
-                            continue
-            sequence_info = null
-            return newmsg
 
 sequence
     var/tmp
@@ -197,76 +125,6 @@ sequence
 
     proc
         function()
-
-    html
-        Black
-            name = "black"
-            character = "d"
-            function() return "<font color=[rgb(0,0,0)]>"
-        Dark_Gray
-            name = "dark gray"
-            character = "z"
-            function() return "<font color=[rgb(120,120,120)]>"
-        Gray
-            name = "gray"
-            character = "Z"
-            function() return "<font color=[rgb(180,180,180)]>"
-        White
-            name = "white"
-            character = "w"
-            function() return "<font color=[rgb(255,255,255)]>"
-        Cyan
-            name = "cyan"
-            character = "c"
-            function() return "<font color=[rgb(0,207,207)]>"
-        Bright_Cyan
-            name = "bright cyan"
-            character = "C"
-            function() return "<font color=[rgb(0,255,255)]>"
-        Magenta
-            name = "magenta"
-            character = "m"
-            function() return "<font color=[rgb(207,0,207)]>"
-        Bright_Magenta
-            name = "bright magenta"
-            character = "M"
-            function() return "<font color=[rgb(255,0,255)]>"
-        Yellow
-            name = "yellow"
-            character = "y"
-            function() return "<font color=[rgb(207,207,0)]>"
-        Bright_Yellow
-            name = "bright yellow"
-            character = "Y"
-            function() return "<font color=[rgb(255,255,0)]>"
-        Red
-            name = "red"
-            character = "r"
-            function() return "<font color=[rgb(207,0,0)]>"
-        Bright_Red
-            name = "bright red"
-            character = "R"
-            function() return "<font color=[rgb(255,0,0)]>"
-        Blue
-            name = "blue"
-            character = "b"
-            function() return "<font color=[rgb(0,0,207)]>"
-        Bright_Blue
-            name = "bright blue"
-            character = "B"
-            function() return "<font color=[rgb(0,0,255)]>"
-        Green
-            name = "green"
-            character = "g"
-            function() return "<font color=[rgb(0,207,0)]>"
-        Bright_Green
-            name = "bright green"
-            character = "G"
-            function() return "<font color=[rgb(0,255,0)]>"
-        Reset
-            name = "reset"
-            character = "n"
-            function() return "</font>"
     telnet
         Black
             name = "black"

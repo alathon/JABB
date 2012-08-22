@@ -16,9 +16,9 @@ LoginProcess
         __newCharacter() {
             var/Question/login/create/charName/charNameQ = new(source = src.__user);
             var/Question/login/create/charGender/charGenderQ = new(source = src.__user);
-            
+
             if(src.__user == null) del src; // Client disconnected in the meantime.
-            
+
             var/charName = charNameQ.getValue();
             var/charGender = charGenderQ.getValue();
             if(charName == null || charGender == null) {
@@ -61,8 +61,8 @@ LoginProcess
 
 Question/login
     loadOrCreate
-        question = "Would you like to (#yL#n)oad a character or (#yC#n)reate a new one?";
-        retryQuestion = "Would you like to (#yL#n)oad a character or (#yC#n)reate a new one?";
+        question = "Would you like to (%yL%n)oad a character or (%yC%n)reate a new one?\n";
+        retryQuestion = "Would you like to (%yL%n)oad a character or (%yC%n)reate a new one?\n";
         tries = 3;
 
         getValue() {
@@ -80,19 +80,19 @@ Question/login
 
     create
         charName
-            question = "What would you like to be called?";
-            retryQuestion = "What would you like to be called?";
+            question = "What would you like to be called?\n";
+            retryQuestion = "What would you like to be called?\n";
             tries = 3;
 
             __needRetry(v) {
                 if(length(v) < 3) {
-                    src.sendToClient(src.source, "Name must be over 3 characters.");
+                    src.sendToClient(src.source, "Name must be over 3 characters.\n");
                     return TRUE;
                 }
 
                 for(var/a = 1 to length(v)) {
                     if(!__isAlpha(text2ascii(v, a))) {
-                        src.sendToClient(src.source, "Name must only contain letters.");
+                        src.sendToClient(src.source, "Name must only contain letters.\n");
                         return TRUE;
                     }
                 }
@@ -100,8 +100,8 @@ Question/login
             }
 
         charGender
-            question = "Would you like to be #z(#yM#z)#nale or #z(#yF#z)#nemale?";
-            retryQuestion = "Would you like to be #z(#yM#z)#nale or #z(#yF#z)#nemale?";
+            question = "Would you like to be %z(%yM%z)%nale or %z(%yF%z)%nemale?\n";
+            retryQuestion = "Would you like to be %z(%yM%z)%nale or %z(%yF%z)%nemale?\n";
             tries = 3;
 
 

@@ -27,7 +27,7 @@ Command
 
         command(mob/user, txt) {
             var/Room/R = user.loc;
-            txt = html_encode(txt);
+            txt = Sanitizer.sanitize(txt);
             var/colorlessLen = length(txt) - (colorizer.countTelnetColors(txt) * 2);
             if(colorlessLen > 80) {
                 user.print("Thats way too much at once. Try saying less :)");

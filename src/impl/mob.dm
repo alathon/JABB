@@ -65,11 +65,11 @@ mob
                     var/Room/curLoc = src.loc;
 
                     if(curLoc.vars[dir] != null) {
-                        var/ok = Move(curLoc.vars[dir], "You move [dir].\n");
+                        var/ok = Move(curLoc.vars[dir], "You move %z[dir]%n.\n");
                         if(ok) {
                             var/Room/newLoc = src.loc;
-                            curLoc.print("[src.getName()] moves [dir].");
-                            newLoc.print("[src.getName()] enters from the [reverseDir(dir)].", src);
+                            curLoc.print("[src.getName()] moves %z[dir]%n.");
+                            newLoc.print("[src.getName()] enters from the %z[reverseDir(dir)]%n.", src);
                         } else {
                             src.print("You were unable to go [dir].");
                         }

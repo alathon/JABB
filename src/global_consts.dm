@@ -21,34 +21,16 @@ IN THE SOFTWARE.
 
 */
 
-/*
-A helpfile is comprised of a trigger (which is a sentence that will match
-the helpfile, in the 'help' Command), and a description. Helpfiles can be
-restricted, by overriding the Helpfile.canRead(mob/viewer) procedure.
-*/
+/* Output related constants */
+var
 
-Helpfile
-    var
-        // The keyword(s) that will match the helpfile
-        trigger = "";
-        description = "";
-        category;
+    const
+        PROMPT_OFF      = 0;    // No prompt ever.
+        PROMPT_ON       = 1;    // Standard 1-symbol prompt
+        PROMPT_STATUS   = 2;    // Statusbar as prompt, always.
 
-    proc
-        read(mob/viewer) {
-            . = "[kText.padText("%y[trigger]%n", 28, kText.PAD_BOTH, "-")]\n";
-            . += "[description]\n";
-            . += "[kText.padText("",24, kText.PAD_BOTH, "-")]";
-        }
+        COLOR_OFF       = 0;    // Color codes stripped
+        COLOR_ON        = 1;    // Regular 16 colors
+        COLOR_256       = 2;    // Xterm256 colors
+        COLOR_CHAR      = "%";
 
-        matches(text) {
-            text = lowertext(text);
-            var/textLen = length(text);
-            var/triggerLen = length(trigger);
-            if(textLen > triggerLen) return FALSE;
-
-            if(copytext(lowertext(trigger), 1, textLen+1) == text) return TRUE;
-            return FALSE;
-        }
-
-        canRead(mob/viewer) { return TRUE; }

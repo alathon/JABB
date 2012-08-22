@@ -61,13 +61,13 @@ client
                 src.out.print("Huh?");
             }
 
-            if(src.out.__promptConfig == src.out.PROMPT_OFF) src << "";
+            // Send newlines occasionally, to clients with no prompt.
+            if(src.out.__promptConfig == PROMPT_OFF) src << "";
         }
     }
 
     var
         InputGrabber/grabber = new();
-        client_type = CLIENT_TELNET;
         Outputter/out;
 
     proc
@@ -85,11 +85,12 @@ client
 
         __determineClientType() {
             if(!findtext(src.key, ".")) {
-                client_type = CLIENT_DS
-                out = new /Outputter/DS(src);
+                src << "To play [world.name], please use a Telnet-capable client!";
+                src << "We can heartily suggest MUSHclient, or MUDlet, or zMUD, cMUD or gMUD";
+                src << "Bye, and hope to see you soon from telnet!";
+                del src;
             } else {
-                client_type = CLIENT_TELNET;
-                out = new /Outputter/Telnet(src);
+                out = new /Outputter(src);
             }
         }
 
